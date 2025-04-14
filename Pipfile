@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+tensorflow = "*"
+tensorflow-datasets = "*"
+numpy = "*"
+matplotlib = "*"
+keras = "*"
+opencv-python = "*"
+pygame = "*"
+imutils = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
+
+[scripts]
+create="python -m create_model"
+use="python -m use_model"
+game="python -m game"
