@@ -4,26 +4,59 @@ import numpy as np
 from skimage.util import random_noise
 from skimage.transform import SimilarityTransform, warp
 import math
+import random
+
+MAX_NOISE = 0.2
+MIN_NOISE = 0.05
+MAX_ROT = 20
+MAX_OFFSET = 5
+MIN_SCALE = 0.9
+MAX_SCALE = 1.1
+
+def get_random_float(min, max):
+    return random.uniform(min, max)
+
+def get_random_int(min, max):
+    return random.randint(min, max)
+
+def apply_noise(images):
+    print("Applying noise...")
+    noisy_images = []
+    for image in images:
+        noise = get_random_float(MIN_NOISE, MAX_NOISE)
+        offset_x = get_random_int(-MAX_OFFSET, MAX_OFFSET)
+        offset_y = get_random_int(-MAX_OFFSET, MAX_OFFSET)
+        rotation_degs = get_random_float(-MAX_ROT, MAX_ROT)
+        rotation_rads = math.radians(rotation_degs)
+        scale = get_random_float(MIN_SCALE, MAX_SCALE)
+
+        # print(noise)
+        # print(offset_x)
+        # print(offset_y)
+        # print(rotation_degs)
+        # print(scale)
+
+        tform = SimilarityTransform(scale=scale, rotation=math.radians(rotation_rads), translation=(offset_x, offset_y))
+
+        image = warp(image, tform)
+        image = random_noise(image, mode='gaussian', mean=0, var=noise)
+        noisy_images.append(image)
+    
+    print("Noise applied")
+    return noisy_images
+
+def test():
+    mnist = tf.keras.datasets.mnist
+
+    (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
 
+    first_image = x_train[0]
 
+    cv.imshow("wow",first_image)
+    cv.waitKey(0)
 
-mnist = tf.keras.datasets.mnist
+    noisy_images = apply_noise(x_train)
 
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
-
-
-first_image = x_train[0]
-
-
-tform = SimilarityTransform(scale=1, rotation=math.radians(30), translation=(5, 1))
-
-
-cv.imshow("wow",first_image)
-cv.waitKey(0)
-
-first_image = warp(first_image, tform)
-first_image = random_noise(first_image, mode='gaussian', mean=0, var=0.3)
-
-cv.imshow("wow",first_image)
-cv.waitKey(0)
+    cv.imshow("wow",noisy_images[0])
+    cv.waitKey(0)
