@@ -2,15 +2,15 @@ import tensorflow as tf
 import cv2 as cv
 import numpy as np
 from skimage.util import random_noise
-from skimage.transform import SimilarityTransform, warp
+from skimage.transform import SimilarityTransform, warp, resize
 import math
 import random
 
-MAX_NOISE = 0.2
+MAX_NOISE = 0.1
 MIN_NOISE = 0.05
 MAX_ROT = 20
 MAX_OFFSET = 5
-MIN_SCALE = 0.9
+MIN_SCALE = 0.8
 MAX_SCALE = 1.1
 
 def get_random_float(min, max):
@@ -53,10 +53,12 @@ def test():
 
     first_image = x_train[0]
 
-    cv.imshow("wow",first_image)
+    cv.imshow("wow",resize(first_image, (360,360)))
     cv.waitKey(0)
 
-    noisy_images = apply_noise(x_train)
+    noisy_images = apply_noise([first_image])
 
-    cv.imshow("wow",noisy_images[0])
+    cv.imshow("wow",resize(noisy_images[0], (360,360)))
     cv.waitKey(0)
+
+# test()
