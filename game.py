@@ -7,10 +7,10 @@ import numpy as np
 
 pygame.init()
 
-size_draw = width, height = 28, 28
-size_view = width, height = 560, 560
+size_draw = width_draw, height_draw = 28, 28
+size_view = width_view, height_view = 336, 336
 
-scale = int(360/28)
+scale = int(width_view/width_draw)
 
 screen = pygame.display.set_mode(size_view)
 

@@ -37,7 +37,6 @@ def apply_noise(images):
         # print(scale)
 
         tform = SimilarityTransform(scale=scale, rotation=math.radians(rotation_rads), translation=(offset_x, offset_y))
-
         image = warp(image, tform)
         image = random_noise(image, mode='gaussian', mean=0, var=noise)
         noisy_images.append(image)
@@ -52,11 +51,13 @@ def test():
 
 
     first_image = x_train[0]
+    noisy_images = apply_noise([first_image])
+    # noisy_images_first = noisy_images[0] * 255
+
+    # cv.imwrite("images/mnist-noisy-2.png", noisy_images_first)
 
     cv.imshow("wow",resize(first_image, (360,360)))
     cv.waitKey(0)
-
-    noisy_images = apply_noise([first_image])
 
     cv.imshow("wow",resize(noisy_images[0], (360,360)))
     cv.waitKey(0)

@@ -52,15 +52,16 @@ def predict_number(img):
     # get (i, j) positions of all RGB pixels that are black (i.e. [0, 0, 0])
 
     non_black_pixels = np.where(
-        (img[:, :, 0] != 0) & 
-        (img[:, :, 1] != 0) & 
-        (img[:, :, 2] != 0)
+        (img[:, :, 0] > (15/255)) 
     )
 
     # set all non black pixels to white
-    img[non_black_pixels] = [255, 255, 255]
+    human_image = img
+    human_image[non_black_pixels] = (human_image[non_black_pixels] * 255) + 75
 
-    cv.imwrite("images/resize.png",img)
+    img[non_black_pixels] = img[non_black_pixels] + (75/255)
+
+    cv.imwrite("images/resize.png",human_image)
     img = img[:,:,0]
     img = np.array([img])
     
