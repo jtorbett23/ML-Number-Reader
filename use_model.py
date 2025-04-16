@@ -13,11 +13,13 @@ model = tf.keras.models.load_model('numberreader.h5')
 
 def prepare_image_cv(img_path):
     img = cv.imread(img_path)
+    cv.imwrite("images/original.png",img)
     img = imutils.resize(img, width=28)
     return img
 
 def prepare_image_sk(img_path):
     img = io.imread(img_path)
+    cv.imwrite("images/original.png",img)
     img = resize(img, (28,28),anti_aliasing=True)
     return img
 
@@ -34,7 +36,7 @@ def predict_number_with_path(img_path):
     # set all non black pixels to white
     img[non_black_pixels] = [255, 255, 255]
 
-    cv.imwrite("resize.png",img)
+    cv.imwrite("images/resize.png",img)
     img = img[:,:,0]
     img = np.array([img])
     
@@ -45,6 +47,7 @@ def predict_number_with_path(img_path):
 def predict_number(img):
     img = np.flipud(img)
     img = np.rot90(img, -1)
+    cv.imwrite("images/original.png",img)
     img = resize(img, (28,28),anti_aliasing=True)
     # get (i, j) positions of all RGB pixels that are black (i.e. [0, 0, 0])
 
@@ -57,7 +60,7 @@ def predict_number(img):
     # set all non black pixels to white
     img[non_black_pixels] = [255, 255, 255]
 
-    cv.imwrite("resize.png",img)
+    cv.imwrite("images/resize.png",img)
     img = img[:,:,0]
     img = np.array([img])
     
