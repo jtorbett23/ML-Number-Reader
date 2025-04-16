@@ -12,6 +12,8 @@ keras = "*"
 opencv-python = "*"
 pygame = "*"
 imutils = "*"
+scipy = "*"
+scikit-image = "*"
 
 [dev-packages]
 
@@ -22,3 +24,4 @@ python_version = "3.11"
 create="python -m create_model"
 use="python -m use_model"
 game="python -m game"
+noise="python -m noise"
