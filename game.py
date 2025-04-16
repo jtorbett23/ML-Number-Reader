@@ -13,6 +13,7 @@ size_view = width_view, height_view = 336, 336
 scale = int(width_view/width_draw)
 
 screen = pygame.display.set_mode(size_view)
+pygame.display.set_caption('MNIST Numbers')
 
 WHITE = (255,255,255)
 BLACK = (0,0,0)
@@ -52,6 +53,21 @@ def aaline(surface, color, start_pos, end_pos, width=1):
     pygame.gfxdraw.aapolygon(surface, (ul, ur, br, bl), color)
     pygame.gfxdraw.filled_polygon(surface, (ul, ur, br, bl), color)
 
+green = (0, 255, 0)
+blue = (0, 0, 128)
+ 
+font = pygame.font.Font('freesansbold.ttf', 16)
+ 
+# create a text surface object,
+# on which text is drawn on it.
+text = font.render('Prediction: None', True, green, blue)
+ 
+# create a rectangular object for the
+# text surface object
+textRect = text.get_rect()
+
+# set the center of the rectangular object.
+screen.blit(text, textRect)
 run = True
 while run:
     for event in pygame.event.get():
@@ -76,8 +92,16 @@ while run:
             if event.key == pygame.K_p:
                 # pygame.image.save(screen, screenshot_path)
                 screenshot = pygame.surfarray.pixels3d(screen)
-                predict_number(screenshot)
+                prediction = predict_number(screenshot)
+                del screenshot
+                screen.fill(BLACK, textRect)
+                text = font.render(f"Prediction: {prediction}", True, green, blue)
+                screen.blit(text, textRect)
             elif event.key == pygame.K_c:
                 screen.fill(BLACK)
-                
+                text = font.render(f"Prediction: None", True, green, blue)
+                screen.blit(text, textRect)
+
     pygame.display.update()
+
+
