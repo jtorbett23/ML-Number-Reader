@@ -2,7 +2,8 @@ import pygame, sys
 import pygame.gfxdraw
 from pygame.locals import *
 from math import atan2, cos, hypot, sin
-from use_model import predict_number
+from use_model import predict_number, predict_number_with_path
+import numpy as np
 
 pygame.init()
 
@@ -74,7 +75,8 @@ while run:
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_p:
                 pygame.image.save(screen, screenshot_path)
-                predict_number(screenshot_path)
+                screenshot = pygame.surfarray.pixels3d(screen)
+                predict_number(screenshot)
             elif event.key == pygame.K_c:
                 screen.fill(BLACK)
                 
