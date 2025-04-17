@@ -1,0 +1,2 @@
+packages = [ "numpy"]
+name = "Installing packages using py-config Copy"

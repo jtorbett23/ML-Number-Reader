@@ -14,6 +14,7 @@ pygame = "*"
 imutils = "*"
 scipy = "*"
 scikit-image = "*"
+pygbag = "*"
 
 [dev-packages]
 
@@ -25,3 +26,4 @@ create="python -m create_model"
 use="python -m use_model"
 game="python -m game"
 noise="python -m noise"
+pygbag="python -m pygbag ."

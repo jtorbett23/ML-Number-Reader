@@ -4,7 +4,6 @@ import numpy as np
 import imutils
 from skimage import io
 from skimage.transform import resize, SimilarityTransform, warp
-import math
 
 mnist = tf.keras.datasets.mnist
 
@@ -24,17 +23,17 @@ def prepare_image_sk(img_path):
     return img
 
 def predict_number_with_path(img_path):
-
     img = prepare_image_sk(img_path)
-    # get (i, j) positions of all RGB pixels that are black (i.e. [0, 0, 0])
+    
     non_black_pixels = np.where(
-        (img[:, :, 0] != 0) & 
-        (img[:, :, 1] != 0) & 
-        (img[:, :, 2] != 0)
+        (img[:, :, 0] > (15/255)) 
     )
 
     # set all non black pixels to white
-    img[non_black_pixels] = [255, 255, 255]
+    human_image = img
+    human_image[non_black_pixels] = (human_image[non_black_pixels] * 255) + 75
+
+    img[non_black_pixels] = img[non_black_pixels] + (75/255)
 
     cv.imwrite("images/resize.png",img)
     img = img[:,:,0]
