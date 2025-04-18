@@ -1,6 +1,5 @@
 import pygame
 import asyncio
-import numpy
 
 
 async def main():

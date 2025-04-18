@@ -1,15 +1,12 @@
-
 # /// script
 # dependencies = [
-#  "numpy",
-#  "scikit-image",
+#  "pygame-ce",
+#  "pygbag",
 # ]
 # ///
 
-import pygame, asyncio, numpy, skimage
+import pygame, asyncio
 # , skimage, numpy, tensorflow
-
-
 # def prepare_image_sk(img_path):
 #     img = skimage.io.imread(img_path)
 #     img = skimage.transform.resize(img, (28,28),anti_aliasing=True)
@@ -90,6 +87,7 @@ async def main():
                 drawing = True
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_p:
+
                     pygame.image.save(screen, screenshot_path)
                     prediction = 2
                     screen.fill(BLACK, textRect)

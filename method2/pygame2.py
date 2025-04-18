@@ -1,13 +1,13 @@
 
 import pygame, asyncio
+
+import requests
+
+# The API endpoint
+url = "https://jsonplaceholder.typicode.com/posts/1"
+
+
 # , skimage, numpy, tensorflow
-
-async def installs():
-    await micropip.install("numpy")
-
-asyncio.run(installs())
-
-import numpy, skimage
 
 
 # def prepare_image_sk(img_path):
@@ -33,43 +33,43 @@ import numpy, skimage
 #     # predicition = model.predict(img)
 #     return 5
 
-pygame.init()
-
-size_draw = width_draw, height_draw = 28, 28
-size_view = width_view, height_view = 336, 336
-
-scale = int(width_view/width_draw)
-
-screenshot_path = "screenshot.png"
-
-screen = pygame.display.set_mode(size_view)
-pygame.display.set_caption('MNIST Numbers')
-
-WHITE = (255,255,255)
-BLACK = (0,0,0)
-
-drawing = False
-last_pos = None
-run = True
-
-green = (0, 255, 0)
-blue = (0, 0, 128)
-
-font = pygame.font.Font('freesansbold.ttf', 16)
- 
-# create a text surface object,
-# on which text is drawn on it.
-text = font.render('Prediction: None', True, green, blue)
- 
-# create a rectangular object for the
-# text surface object
-textRect = text.get_rect()
-
-# set the center of the rectangular object.
-screen.blit(text, textRect)
 
 async def main():
-    global run, drawing, last_pos
+    pygame.init()
+
+    size_draw = width_draw, height_draw = 28, 28
+    size_view = width_view, height_view = 336, 336
+
+    scale = int(width_view/width_draw)
+
+    screenshot_path = "screenshot.png"
+
+    screen = pygame.display.set_mode(size_view)
+    pygame.display.set_caption('MNIST Numbers')
+
+    WHITE = (255,255,255)
+    BLACK = (0,0,0)
+
+    drawing = False
+    last_pos = None
+    run = True
+
+    green = (0, 255, 0)
+    blue = (0, 0, 128)
+
+    font = pygame.font.Font('freesansbold.ttf', 16)
+    
+    # create a text surface object,
+    # on which text is drawn on it.
+    text = font.render('Prediction: None', True, green, blue)
+    
+    # create a rectangular object for the
+    # text surface object
+    textRect = text.get_rect()
+
+    # set the center of the rectangular object.
+    screen.blit(text, textRect)
+    # global run, drawing, last_pos
     pygame.display.update()
     while run:
         for event in pygame.event.get():
@@ -90,7 +90,14 @@ async def main():
                 drawing = True
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_p:
-                    pygame.image.save(screen, screenshot_path)
+                    screenshot = pygame.surfarray.pixels3d(screen)
+                   # A GET request to the API
+                    response = requests.get(url)
+
+                    # Print the response
+                    print(response.json())
+                    # prediction = predict_number(screenshot)
+                    del screenshot
                     prediction = 2
                     screen.fill(BLACK, textRect)
                     text = font.render(f"Prediction: {prediction}", True, green, blue)

@@ -1,22 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <!-- Recommended meta tags -->
-    <title>PyScript Pygame-CE</title>     
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <!-- PyScript CSS -->
-    <link rel="stylesheet" href="https://pyscript.net/releases/2025.2.1/core.css">
-    <!-- This script tag bootstraps PyScript -->
-    <script type="module" src="https://pyscript.net/releases/2025.2.1/core.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@pyscript/core@0.6.37/dist/core.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@pyscript/core@0.6.37/dist/core.js"></script>
 </head>
 <body>
-    <py-config>
-        packages = ['numpy', 'pygame-ce', 'tensorflow','skimage']
-    </py-config>
-    <canvas id="canvas"></canvas>
-    <py-script src="pygame1.py"></py-script>
-    <!-- <script type="py-game" src="pygame1.py"> </script> -->
+<canvas id="canvas">
+  <script type="py-game" src="./pygame2.py" config="./pyscript.toml" terminal></script>
 </body>
 </html>

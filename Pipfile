@@ -10,11 +10,11 @@ numpy = "*"
 matplotlib = "*"
 keras = "*"
 opencv-python = "*"
-pygame = "*"
 imutils = "*"
 scipy = "*"
 scikit-image = "*"
 pygbag = "*"
+pygame-ce = "*"
 
 [dev-packages]
 

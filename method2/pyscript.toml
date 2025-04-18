@@ -1,2 +1,3 @@
-packages = [ "numpy"]
-name = "Installing packages using py-config Copy"
+name = "Pygame Numpy"
+description = ""
+packages = ["pygame-ce","numpy", "requests"]
