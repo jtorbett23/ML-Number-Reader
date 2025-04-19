@@ -67,4 +67,5 @@ def predict_number(img):
     predicition = model.predict(img)
     print(predicition)
     print(f"The digit is probably {np.argmax(predicition)}")
-    return np.argmax(predicition)
+    number : int = np.argmax(predicition)
+    return number

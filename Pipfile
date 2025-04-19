@@ -15,6 +15,7 @@ scipy = "*"
 scikit-image = "*"
 pygbag = "*"
 pygame-ce = "*"
+fastapi = {extras = ["standard"], version = "*"}
 
 [dev-packages]
 
@@ -27,3 +28,4 @@ use="python -m use_model"
 game="python -m game"
 noise="python -m noise"
 pygbag="python -m pygbag ."
+api-dev="python -m fastapi dev api.py"
