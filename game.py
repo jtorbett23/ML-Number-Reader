@@ -90,7 +90,6 @@ while run:
             drawing = True
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_p:
-                # pygame.image.save(screen, screenshot_path)
                 screenshot = pygame.surfarray.pixels3d(screen)
                 prediction = predict_number(screenshot)
                 del screenshot

@@ -1,3 +1,0 @@
-name = "Pygame Numpy"
-description = ""
-packages = ["pygame-ce","numpy", "requests"]

@@ -5,19 +5,16 @@ name = "pypi"
 
 [packages]
 tensorflow = "*"
-tensorflow-datasets = "*"
 numpy = "*"
-matplotlib = "*"
-keras = "*"
-opencv-python = "*"
-imutils = "*"
-scipy = "*"
 scikit-image = "*"
-pygbag = "*"
+
 pygame-ce = "*"
 fastapi = {extras = ["standard"], version = "*"}
 
 [dev-packages]
+tensorflow-datasets = "*"
+matplotlib = "*"
+opencv-python = "*"
 
 [requires]
 python_version = "3.11"
