@@ -61,19 +61,23 @@ async def main():
                 drawing = True
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_p:
+                    text = font.render(f"Prediction: Calculating...", True, green, blue)
+                    screen.blit(text, textRect)
+                    pygame.display.update(textRect)
                     screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
                    # A GET request to the API
                     screenshot = screenshot.tolist()
                     screenshot = json.dumps(screenshot)
                     # https://ml-number-reader.onrender.com
                     # http://localhost:8000/predict
+                    # response = requests.post("http://localhost:8000/predict", json=screenshot)
                     response = requests.post("https://ml-number-reader.onrender.com/predict", json=screenshot)
                     # Print the response
                     # print(response.json())
                     # prediction = predict_number(screenshot)
                     # del screenshot
                     prediction = response.json()
-                    screen.fill(BLACK, textRect)
+                    screen.fill(BLACK, text.get_rect())
                     text = font.render(f"Prediction: {prediction}", True, green, blue)
                     screen.blit(text, textRect)
                     pygame.display.update(textRect)
