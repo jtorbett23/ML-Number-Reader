@@ -6,7 +6,6 @@ import json
 #TODO
 # Only allow requests from the ui
 # Try saving the screenshot to a local python file and have the app read from that instead of passing the content as an api request
-# get the calculating text to appear
 # find a way to make sure tensorflow is setup prior to server
 app = FastAPI(title="main app")
 

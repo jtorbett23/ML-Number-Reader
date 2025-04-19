@@ -81,8 +81,8 @@ async def main():
             screenshot = json.dumps(screenshot)
             # https://ml-number-reader.onrender.com
             # http://localhost:8000/predict
-            response = requests.post("http://localhost:8000/predict", json=screenshot)
-            # response = requests.post("https://ml-number-reader.onrender.com/predict", json=screenshot)
+            # response = requests.post("http://localhost:8000/predict", json=screenshot)
+            response = requests.post("https://ml-number-reader.onrender.com/predict", json=screenshot)
             # Print the response
             # print(response.json())
             # prediction = predict_number(screenshot)
