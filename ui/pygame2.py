@@ -4,32 +4,6 @@ import pygame, asyncio
 import requests
 import json
 import numpy
-# , skimage, numpy, tensorflow
-
-
-# def prepare_image_sk(img_path):
-#     img = skimage.io.imread(img_path)
-#     img = skimage.transform.resize(img, (28,28),anti_aliasing=True)
-#     return img
-
-# def predict_number_with_path(img_path):
-#     img = prepare_image_sk(img_path)
-#     non_black_pixels = numpy.where(
-#         (img[:, :, 0] > (15/255)) 
-#     )
-
-#     # set all non black pixels to white
-#     human_image = img
-#     human_image[non_black_pixels] = (human_image[non_black_pixels] * 255) + 75
-
-#     img[non_black_pixels] = img[non_black_pixels] + (75/255)
-
-#     img = img[:,:,0]
-#     img = numpy.array([img])
-    
-#     # predicition = model.predict(img)
-#     return 5
-
 
 async def main():
     pygame.init()
@@ -91,7 +65,9 @@ async def main():
                    # A GET request to the API
                     screenshot = screenshot.tolist()
                     screenshot = json.dumps(screenshot)
-                    response = requests.post("http://localhost:8000/predict", json=screenshot)
+                    # https://ml-number-reader.onrender.com
+                    # http://localhost:8000/predict
+                    response = requests.post("https://ml-number-reader.onrender.com/predict", json=screenshot)
                     # Print the response
                     # print(response.json())
                     # prediction = predict_number(screenshot)
