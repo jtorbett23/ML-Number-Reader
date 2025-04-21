@@ -7,6 +7,10 @@ import json
 # Only allow requests from the ui
 # Try saving the screenshot to a local python file and have the app read from that instead of passing the content as an api request
 # find a way to make sure tensorflow is setup prior to server
+# lock dependencies 
+# fix showing as it is not showing calcutating on render consistently
+# current deploy delay on render is 6mins can we speed this up
+# update the ui and have controls on it
 app = FastAPI(title="main app")
 
 @app.post("/predict")
