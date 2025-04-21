@@ -5,17 +5,16 @@ name = "pypi"
 
 [packages]
 tensorflow = "*"
-tensorflow-datasets = "*"
 numpy = "*"
-matplotlib = "*"
-keras = "*"
-opencv-python = "*"
-pygame = "*"
-imutils = "*"
-scipy = "*"
 scikit-image = "*"
+pygame-ce = "*"
+fastapi = {extras = ["standard"], version = "*"}
 
 [dev-packages]
+tensorflow-datasets = "*"
+matplotlib = "*"
+opencv-python = "*"
+imutils= "*"
 
 [requires]
 python_version = "3.11"
@@ -25,3 +24,6 @@ create="python -m create_model"
 use="python -m use_model"
 game="python -m game"
 noise="python -m noise"
+pygbag="python -m pygbag ."
+api-dev="python -m fastapi dev api.py"
+api-prod="python -m fastapi run api.py"

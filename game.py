@@ -78,7 +78,7 @@ while run:
             if (drawing):
                 mouse_position = pygame.mouse.get_pos()
                 if last_pos is not None:
-                    aaline(screen,WHITE, last_pos, mouse_position, scale)
+                    pygame.draw.line(screen, WHITE, last_pos, mouse_position, scale)
                 last_pos = mouse_position
         elif event.type == pygame.MOUSEBUTTONUP:
             drawing = False
@@ -90,7 +90,6 @@ while run:
             drawing = True
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_p:
-                # pygame.image.save(screen, screenshot_path)
                 screenshot = pygame.surfarray.pixels3d(screen)
                 prediction = predict_number(screenshot)
                 del screenshot
