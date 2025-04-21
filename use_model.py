@@ -5,14 +5,17 @@ import numpy as np
 from skimage import io
 from skimage.transform import resize
 
-model = tf.keras.models.load_model('numberreader.h5')
-
-
 # def prepare_image_cv(img_path):
 #     img = cv.imread(img_path)
 #     # cv.imwrite("images/original.png",img)
 #     img = imutils.resize(img, width=28)
 #     return img
+model = None
+
+def load_model():
+    if model == None:
+        model = tf.keras.models.load_model('numberreader.h5')
+    return model
 
 def prepare_image_sk(img_path):
     img = io.imread(img_path)
@@ -21,6 +24,7 @@ def prepare_image_sk(img_path):
     return img
 
 def predict_number_with_path(img_path):
+    model = load_model()
     img = prepare_image_sk(img_path)
     
     non_black_pixels = np.where(
