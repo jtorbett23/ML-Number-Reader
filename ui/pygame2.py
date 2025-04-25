@@ -6,6 +6,7 @@ import json
 import numpy
 
 async def main():
+    print("Started Pygame")
     pygame.init()
 
     size_draw = width_draw, height_draw = 28, 28

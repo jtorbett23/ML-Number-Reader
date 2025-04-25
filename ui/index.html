@@ -1,11 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html style="height: 100%;">
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@pyscript/core@0.6.37/dist/core.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/@pyscript/core@0.6.37/dist/core.js"></script>
+   <style>
+      #loading { outline: none; border: none; background: black; }
+      #loading::backdrop { background-color: black; }
+   </style>
+    <script type="module">
+      const loading = document.getElementById('loading');
+      console.stdlog = console.log.bind(console);
+      console.logs = [];
+      console.log = function(){
+        console.logs.length = 0;
+        console.logs.push(Array.from(arguments));
+        console.stdlog.apply(console, arguments);
+        if(console.logs[0][0].includes("Started Pygame"))
+        {
+          onLoadingComplete()
+        } 
+    }
+    function onLoadingComplete(){
+      loading.close()
+    }
+      loading.showModal();
+  </script>
 </head>
-<body>
-<canvas id="canvas">
-  <script type="py-game" src="./pygame2.py" config="./pyscript.toml" terminal></script>
+<body style="height: 100%;">
+  <dialog id="loading">
+    <h1 style="color: white;">Loading...</h1>
+</dialog>
+<page style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 100%;">
+  <section>
+    <h2>MNIST Number Reader</h2>
+  </section>
+  <section>
+  <canvas id="canvas">
+    <script id="script" type="py-game" src="./pygame2.py" config="./pyscript.toml" terminal></script>
+  </section>
+  <section>
+    <h3>Controls:</h3>
+    <ul>
+     <li>Left Mouse: Draw Line</li> 
+    <li>C: Clear Screen</li>
+    <li>P: Predict Number</li> 
+    </ul>
+  </section>
+</page>
 </body>
 </html>
