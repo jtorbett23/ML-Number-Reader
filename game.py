@@ -1,8 +1,6 @@
 import pygame, sys
-import pygame.gfxdraw
 from pygame.locals import *
-from math import atan2, cos, hypot, sin
-from use_model import predict_number, predict_number_with_path
+from use_model import predict_number
 import numpy as np
 
 pygame.init()
@@ -23,35 +21,7 @@ last_pos = None
 screen.fill(BLACK)
 screenshot_path = "screenshot.png"
 
-def aaline(surface, color, start_pos, end_pos, width=1):
-    """ Draws wide transparent anti-aliased lines. """
-    # ref https://stackoverflow.com/a/30599392/355230
 
-    x0, y0 = start_pos
-    x1, y1 = end_pos
-    midpnt_x, midpnt_y = (x0+x1)/2, (y0+y1)/2  # Center of line segment.
-    length = hypot(x1-x0, y1-y0)
-    angle = atan2(y0-y1, x0-x1)  # Slope of line.
-    width2, length2 = width/2, length/2
-    sin_ang, cos_ang = sin(angle), cos(angle)
-
-    width2_sin_ang  = width2*sin_ang
-    width2_cos_ang  = width2*cos_ang
-    length2_sin_ang = length2*sin_ang
-    length2_cos_ang = length2*cos_ang
-
-    # Calculate box ends.
-    ul = (midpnt_x + length2_cos_ang - width2_sin_ang,
-          midpnt_y + width2_cos_ang  + length2_sin_ang)
-    ur = (midpnt_x - length2_cos_ang - width2_sin_ang,
-          midpnt_y + width2_cos_ang  - length2_sin_ang)
-    bl = (midpnt_x + length2_cos_ang + width2_sin_ang,
-          midpnt_y - width2_cos_ang  + length2_sin_ang)
-    br = (midpnt_x - length2_cos_ang + width2_sin_ang,
-          midpnt_y - width2_cos_ang  - length2_sin_ang)
-
-    pygame.gfxdraw.aapolygon(surface, (ul, ur, br, bl), color)
-    pygame.gfxdraw.filled_polygon(surface, (ul, ur, br, bl), color)
 
 green = (0, 255, 0)
 blue = (0, 0, 128)
@@ -66,8 +36,34 @@ text = font.render('Prediction: None', True, green, blue)
 # text surface object
 textRect = text.get_rect()
 
+class Button:
+    def __init__(self,text, x, y, width, height):
+        self.text = text
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+
+    def draw(self, screen):
+        colour = (170,170,170) 
+        pygame.draw.rect(screen,colour,[self.x,self.y,self.width,self.height]) 
+        text = font.render(self.text, True, green)
+        text_rect = text.get_rect()
+        x_offset = (self.width - text_rect.width) / 2 
+        y_offset = (self.height - text_rect.height) / 2 
+        screen.blit(text, (self.x + x_offset, self.y + y_offset))
+    
+    def is_mouse_over(self, mouse_pos):
+        x, y = mouse_pos
+        if(x >= self.x and x <= self.x + self.width) and (y >= self.y and self.y + self.height):
+            return True
+        return False
 # set the center of the rectangular object.
 screen.blit(text, textRect)
+clear_button = Button("Clear", 0 + 10, 336 - 30 - 10, 80, 30)
+predict_button = Button("Predict", 336 -80 - 10, 336 - 30 - 10, 80, 30)
+clear_button.draw(screen)
+predict_button.draw(screen)
 run = True
 while run:
     for event in pygame.event.get():
@@ -102,5 +98,4 @@ while run:
                 screen.blit(text, textRect)
 
     pygame.display.update()
-
 

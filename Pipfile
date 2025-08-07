@@ -4,17 +4,19 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-tensorflow = "*"
+fastapi = {extras = ["standard"], version = "*"}
+tensorflow-cpu="*"
 numpy = "*"
 scikit-image = "*"
-pygame-ce = "*"
-fastapi = {extras = ["standard"], version = "*"}
 
 [dev-packages]
 tensorflow-datasets = "*"
 matplotlib = "*"
 opencv-python = "*"
 imutils= "*"
+httpx="*"
+pygame-ce = "*"
+httpx-retries="*"
 
 [requires]
 python_version = "3.11"
@@ -24,5 +26,5 @@ create="python -m create_model"
 use="python -m use_model"
 game="python -m game"
 noise="python -m noise"
-api-dev="python -m fastapi dev api.py"
-api-prod="python -m fastapi run api.py"
+api-dev="python -m fastapi dev api.py --port 8080"
+api-prod="python -m fastapi run api.py --port 8080"
