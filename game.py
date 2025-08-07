@@ -1,29 +1,22 @@
 import pygame, sys
-from pygame.locals import *
 from use_model import predict_number
-import numpy as np
-from pygame_core import Button, COLOURS, set_text
+from pygame_core import Button, COLOURS, set_text, SIZE_VIEW, SCALE
 
+#SETUP
 pygame.init()
-
-
-size_draw = width_draw, height_draw = 28, 28
-size_view = width_view, height_view = 336, 336
-scale = int(width_view/width_draw)
-
-font = pygame.font.Font('freesansbold.ttf', 16)
-
+#TITLE
 pygame.display.set_caption('MNIST Numbers')
-
+#LOGIC
 drawing = False
 last_pos = None
 run = True
-screen = pygame.display.set_mode(size_view)
+#SCREEN
+screen = pygame.display.set_mode(SIZE_VIEW)
 width = screen.get_width() 
-height = screen.get_height() 
+height = screen.get_height()
+#ELEMENTS
+font = pygame.font.Font('freesansbold.ttf', 16)
 set_text(screen, font, "Prediction: None")
-
-# button
 clear_button = Button("Clear", 0 + 10, height - 30 - 10, 80, 30, font)
 predict_button = Button("Predict", width -80 - 10, height - 30 - 10, 80, 30, font)
 clear_button.draw(screen)
@@ -46,12 +39,14 @@ def predict():
 
 while run:
     for event in pygame.event.get():
+        #MOUSE MOVED
         if event.type == pygame.MOUSEMOTION:
             if (drawing):
                 mouse_position = pygame.mouse.get_pos()
                 if last_pos is not None:
-                    pygame.draw.line(screen, COLOURS["WHITE"], last_pos, mouse_position, scale)
+                    pygame.draw.line(screen, COLOURS["WHITE"], last_pos, mouse_position, SCALE)
                 last_pos = mouse_position
+        #MOUSE PRESSED & RELEASED
         elif event.type == pygame.MOUSEBUTTONUP:
             drawing = False
             last_pos = None
@@ -59,18 +54,21 @@ while run:
                 clear_screen()
             elif(predict_button.is_mouse_over(mouse_position)):
                 predict()
+        #MOUSE DOWN
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_position = pygame.mouse.get_pos()
             if(last_pos is not None):
                 last_pos = mouse_position
             drawing = True
+        #KEY PRESSED
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_p:
                 predict()
             elif event.key == pygame.K_c:
                 clear_screen()
-                
+        #QUIT
         elif event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+
     pygame.display.update()

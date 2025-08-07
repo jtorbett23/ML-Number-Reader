@@ -5,6 +5,10 @@ COLOURS = {"WHITE" : (255,255,255),
           "GREEN" : (0, 255, 0),
           "GREY": (170,170,170)}
 
+SIZE_DRAW = width_draw, height_draw = 28, 28
+SIZE_VIEW = width_view, height_view = 336, 336
+SCALE = int(width_view/width_draw)
+
 class Button:
     def __init__(self,text, x, y, width, height, font):
         self.text = text
