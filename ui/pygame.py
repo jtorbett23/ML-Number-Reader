@@ -10,7 +10,7 @@ import time
 retry = Retry(total=5, backoff_factor=3)
 transport = RetryTransport(retry=retry)
 
-# url = "http://127.0.0.1:8000/predict"
+# url = "http://127.0.0.1:8080/predict"
 url = "https://ml-number-reader-969582007399.europe-west1.run.app/predict"
 
 WHITE = (255,255,255)
