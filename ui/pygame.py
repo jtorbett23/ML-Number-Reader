@@ -4,13 +4,14 @@ import httpx
 import json
 import numpy
 from httpx_retries import RetryTransport, Retry
+import time
+
 
 retry = Retry(total=5, backoff_factor=3)
 transport = RetryTransport(retry=retry)
 
-url = "http://127.0.0.1:8000/predict"
-#url = "https://ml-number-reader-969582007399.us-central1.run.app/predict"
-# url = "https://ml-number-reader-969582007399.europe-west1.run.app/predict"
+# url = "http://127.0.0.1:8000/predict"
+url = "https://ml-number-reader-969582007399.europe-west1.run.app/predict"
 
 WHITE = (255,255,255)
 BLACK = (0,0,0)
@@ -60,6 +61,22 @@ def set_text(screen, content, current_text=None):
     screen.blit(current_text, text_rect)
     return current_text
 
+async def get_prediction(screenshot):
+    retries = 6
+    delay = 5
+    prediction = None
+    for i in range(0, retries):
+        async with httpx.AsyncClient(transport=transport) as client:
+            try:
+                r = await client.post(url, json=screenshot)
+                prediction = r.json()
+            except:
+                print("Server not available yet...")
+        if prediction is not None:
+            return prediction
+        time.sleep(delay)
+    return prediction
+
 async def main():
     print("Started Pygame", flush=True)
     pygame.init()
@@ -105,15 +122,13 @@ async def main():
                     screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
                     screenshot = screenshot.tolist()
                     screenshot = json.dumps(screenshot)
-                    async with httpx.AsyncClient(transport=transport) as client:
-                        try:
-                            
-                            r = await client.post(url, json=screenshot)
-                            prediction = r.json()
-                            text = set_text(screen, f"Prediction: {prediction}", text)
-                            pygame.display.update(text.get_rect())
-                        except:
-                            print("Server not available yet...")
+                    prediction = await get_prediction(screenshot)
+                    if prediction is not None:
+                        text = set_text(screen, f"Prediction: {prediction}", text)
+                    else:
+                        text = set_text(screen, f"Connection issue, please retry", text)
+                    pygame.display.update(text.get_rect())
+
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_position = pygame.mouse.get_pos()
                 if(last_pos is not None):
@@ -126,14 +141,14 @@ async def main():
                     screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
                     screenshot = screenshot.tolist()
                     screenshot = json.dumps(screenshot)
-                    async with httpx.AsyncClient(transport=transport) as client:
-                        try:
-                            r = await client.post(url, json=screenshot)
-                            prediction = r.json()
-                            text = set_text(screen, f"Prediction: {prediction}", text)
-                            pygame.display.update(text.get_rect())
-                        except:
-                            print("Server not available yet...")
+                    prediction = await get_prediction(screenshot)
+                    if prediction is not None:
+                        text = set_text(screen, f"Prediction: {prediction}", text)
+                    else:
+                        text = set_text(screen, f"Connection issue, please retry", text)
+                    pygame.display.update(text.get_rect())
+
+
                 elif event.key == pygame.K_c:
                     screen.fill(BLACK)
                     text = set_text(screen, "Prediction: None", text)
