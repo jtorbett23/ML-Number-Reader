@@ -134,5 +134,6 @@ try:
     from pyscript import window
     from pyscript import ffi
     run_one_frame()
+    print("Started Pygame", flush=True)
 except ImportError as _:
     run_game_local()
