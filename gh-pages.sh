@@ -13,3 +13,4 @@ rm -r ./ui
 rm -r ./gh-pages.sh
 git add .
 git commit -m "pages"
+git push --set-upstream origin gh-pages -f 
