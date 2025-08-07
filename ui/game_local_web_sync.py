@@ -1,6 +1,12 @@
 import pygame
 from pygame_core import COLOURS, SIZE_VIEW, SCALE, Button
-
+# from use_model import predict_number
+import httpx
+import numpy
+import json
+url = "http://127.0.0.1:8080/predict"
+transport = httpx.HTTPTransport(retries=1)
+client = httpx.Client(transport=transport)
 #SETUP
 pygame.init()
 #TITLE
@@ -45,18 +51,22 @@ def clear_screen():
     clear_button.draw(screen)
     predict_button.draw(screen)
 
-def predict():
-    prediction = 1
-    
-    set_text(screen, f"Prediction: {prediction}", text)
-    clear_button.draw(screen)
-    predict_button.draw(screen)
+# def predict():
+#     screenshot = pygame.surfarray.pixels3d(screen)
+#     prediction = predict_number(screenshot)
+#     del screenshot
+#     set_text(screen, f"Prediction: {prediction}", text)
+#     clear_button.draw(screen)
+#     predict_button.draw(screen)
+
+
 
 def run_frame():
     global running
     global drawing
     global last_pos
     global mouse_position
+    global text
 
     for event in pygame.event.get():
         #MOUSE MOVED
@@ -73,7 +83,16 @@ def run_frame():
             if(clear_button.is_mouse_over(mouse_position)):
                 clear_screen()
             elif(predict_button.is_mouse_over(mouse_position)):
-                predict()
+                text = set_text(screen,"Prediction: Calculating...", text)
+                screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
+                screenshot = screenshot.tolist()
+                screenshot = json.dumps(screenshot)
+                request = client.post(url, json=screenshot)
+                prediction = request.json()
+                if prediction is not None:
+                    text = set_text(screen, f"Prediction: {prediction}", text)
+                else:
+                    text = set_text(screen, f"Connection issue, please retry", text)
         #MOUSE DOWN
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_position = pygame.mouse.get_pos()
@@ -83,7 +102,15 @@ def run_frame():
         #KEY PRESSED
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_p:
-                predict()
+                text = set_text(screen,"Prediction: Calculating...", text)
+                screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
+                screenshot = screenshot.tolist()
+                screenshot = json.dumps(screenshot)
+                prediction = httpx.post(url, json=screenshot)
+                if prediction is not None:
+                    text = set_text(screen, f"Prediction: {prediction}", text)
+                else:
+                    text = set_text(screen, f"Connection issue, please retry", text)
             elif event.key == pygame.K_c:
                 clear_screen()
         elif event.type == pygame.QUIT:

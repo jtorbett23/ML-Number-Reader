@@ -1,5 +1,10 @@
 import pygame
 from pygame_core import COLOURS, SIZE_VIEW, SCALE, Button
+from use_model import predict_number
+import requests
+import numpy
+import json
+url = "http://127.0.0.1:8080/predict"
 
 #SETUP
 pygame.init()
@@ -46,11 +51,23 @@ def clear_screen():
     predict_button.draw(screen)
 
 def predict():
-    prediction = 1
-    
+    screenshot = pygame.surfarray.pixels3d(screen)
+    prediction = predict_number(screenshot)
+    del screenshot
     set_text(screen, f"Prediction: {prediction}", text)
     clear_button.draw(screen)
     predict_button.draw(screen)
+
+def predict_online():
+    text = set_text(screen,"Prediction: Calculating...", text)
+    screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
+    screenshot = screenshot.tolist()
+    screenshot = json.dumps(screenshot)
+    prediction =  response = requests.post(url, json=screenshot)
+    if prediction is not None:
+        text = set_text(screen, f"Prediction: {prediction}", text)
+    else:
+        text = set_text(screen, f"Connection issue, please retry", text)
 
 def run_frame():
     global running
