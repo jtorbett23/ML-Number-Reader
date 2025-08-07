@@ -10,4 +10,6 @@ rm -r ./Pipfile
 rm -r ./Dockerfile
 mv ui/* ./
 rm -r ./ui
-
+rm -r ./gh-pages.sh
+git add .
+git commit -m "pages"
