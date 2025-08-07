@@ -3,3 +3,4 @@ screenshot.png
 images/
 videos/
 __pycache__
+.env*
