@@ -10,8 +10,8 @@ import time
 retry = Retry(total=5, backoff_factor=3)
 transport = RetryTransport(retry=retry)
 
-# url = "http://127.0.0.1:8080/predict"
-url = "https://ml-number-reader-969582007399.europe-west1.run.app/predict"
+url = "http://127.0.0.1:8080/predict"
+# url = "https://ml-number-reader-969582007399.europe-west1.run.app/predict"
 
 WHITE = (255,255,255)
 BLACK = (0,0,0)
@@ -96,8 +96,6 @@ async def main():
     clear_button.draw(screen)
     predict_button.draw(screen)
    
-    pygame.display.update()
-
     while run:
         for event in pygame.event.get():
             if event.type == pygame.MOUSEMOTION:
@@ -105,7 +103,6 @@ async def main():
                     mouse_position = pygame.mouse.get_pos()
                     if last_pos is not None:
                         pygame.draw.line(screen, WHITE, last_pos, mouse_position, scale)
-                        pygame.display.update()
                     last_pos = mouse_position
             elif event.type == pygame.MOUSEBUTTONUP:
                 drawing = False
@@ -115,10 +112,8 @@ async def main():
                     text = set_text(screen, "Prediction: None", text)
                     clear_button.draw(screen)
                     predict_button.draw(screen)
-                    pygame.display.update()
                 elif(predict_button.is_mouse_over(mouse_position)):
                     text = set_text(screen,"Prediction: Calculating...", text)
-                    pygame.display.update(text.get_rect())
                     screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
                     screenshot = screenshot.tolist()
                     screenshot = json.dumps(screenshot)
@@ -127,7 +122,6 @@ async def main():
                         text = set_text(screen, f"Prediction: {prediction}", text)
                     else:
                         text = set_text(screen, f"Connection issue, please retry", text)
-                    pygame.display.update(text.get_rect())
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_position = pygame.mouse.get_pos()
@@ -137,7 +131,6 @@ async def main():
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_p:
                     text = set_text(screen,"Prediction: Calculating...", text)
-                    pygame.display.update(text.get_rect())
                     screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
                     screenshot = screenshot.tolist()
                     screenshot = json.dumps(screenshot)
@@ -146,7 +139,7 @@ async def main():
                         text = set_text(screen, f"Prediction: {prediction}", text)
                     else:
                         text = set_text(screen, f"Connection issue, please retry", text)
-                    pygame.display.update(text.get_rect())
+              
 
 
                 elif event.key == pygame.K_c:
@@ -154,7 +147,6 @@ async def main():
                     text = set_text(screen, "Prediction: None", text)
                     clear_button.draw(screen)
                     predict_button.draw(screen)
-                    pygame.display.update()
         
         await asyncio.sleep(0)  # Let other tasks run
 

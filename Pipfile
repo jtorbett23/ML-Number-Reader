@@ -15,7 +15,7 @@ matplotlib = "*"
 opencv-python = "*"
 imutils= "*"
 httpx="*"
-pygame-ce = "*"
+pygame-ce = "2.4.1"
 httpx-retries="*"
 
 [requires]
