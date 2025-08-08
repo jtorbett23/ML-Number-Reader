@@ -4,6 +4,8 @@ from pygame_core import COLOURS, SIZE_VIEW, SCALE, Button
 import httpx
 import numpy
 import json
+import time
+
 url = "http://127.0.0.1:8080/predict"
 transport = httpx.HTTPTransport(retries=1)
 client = httpx.Client(transport=transport)
@@ -15,6 +17,7 @@ pygame.display.set_caption('MNIST Numbers')
 drawing = False
 last_pos = None
 run = True
+make_request = False
 #SCREEN
 screen = pygame.display.set_mode(SIZE_VIEW, vsync=1)
 width = screen.get_width() 
@@ -67,6 +70,31 @@ def run_frame():
     global last_pos
     global mouse_position
     global text
+    global make_request
+
+
+    if make_request:
+        make_request = False
+        screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
+        screenshot = screenshot.tolist()
+        screenshot = json.dumps(screenshot)
+        
+        retries = 6
+        delay = 5
+        prediction = None
+        for i in range(0, retries):
+            try:
+                request = httpx.post(url, json=screenshot)
+            except:
+                print("Server not available yet...")
+            if request is not None:
+                break
+            time.sleep(delay)
+
+        if request is not None:
+            text = set_text(screen, f"Prediction: {request.json()}", text)
+        else:
+            text = set_text(screen, f"Connection issue, please retry", text)
 
     for event in pygame.event.get():
         #MOUSE MOVED
@@ -84,15 +112,7 @@ def run_frame():
                 clear_screen()
             elif(predict_button.is_mouse_over(mouse_position)):
                 text = set_text(screen,"Prediction: Calculating...", text)
-                screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
-                screenshot = screenshot.tolist()
-                screenshot = json.dumps(screenshot)
-                request = client.post(url, json=screenshot)
-                prediction = request.json()
-                if prediction is not None:
-                    text = set_text(screen, f"Prediction: {prediction}", text)
-                else:
-                    text = set_text(screen, f"Connection issue, please retry", text)
+                make_request = True
         #MOUSE DOWN
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_position = pygame.mouse.get_pos()
@@ -103,22 +123,16 @@ def run_frame():
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_p:
                 text = set_text(screen,"Prediction: Calculating...", text)
-                screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
-                screenshot = screenshot.tolist()
-                screenshot = json.dumps(screenshot)
-                prediction = httpx.post(url, json=screenshot)
-                if prediction is not None:
-                    text = set_text(screen, f"Prediction: {prediction}", text)
-                else:
-                    text = set_text(screen, f"Connection issue, please retry", text)
+                make_request = True
+
             elif event.key == pygame.K_c:
                 clear_screen()
         elif event.type == pygame.QUIT:
             running = False
-    
+        
 
 
-    pygame.display.flip()
+    pygame.display.update()
 
 
 def run_game_local():
