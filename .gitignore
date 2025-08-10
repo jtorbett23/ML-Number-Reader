@@ -4,3 +4,5 @@ images/
 videos/
 __pycache__
 .env*
+ui/pygame-core.py
+ui/game.py

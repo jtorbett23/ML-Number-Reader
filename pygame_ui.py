@@ -1,6 +1,5 @@
 import pygame
 from pygame_core import COLOURS, SIZE_VIEW, SCALE, Button
-# from use_model import predict_number
 import httpx
 import numpy
 import json
@@ -55,17 +54,18 @@ def clear_screen():
     clear_button.draw(screen)
     predict_button.draw(screen)
 
-# def predict():
-#     screenshot = pygame.surfarray.pixels3d(screen)
-#     prediction = predict_number(screenshot)
-#     del screenshot
-#     set_text(screen, f"Prediction: {prediction}", text)
-#     clear_button.draw(screen)
-#     predict_button.draw(screen)
+def predict():
+    from use_model import predict_number
+    screenshot = pygame.surfarray.pixels3d(screen)
+    prediction = predict_number(screenshot)
+    del screenshot
+    set_text(screen, f"Prediction: {prediction}", text)
+    clear_button.draw(screen)
+    predict_button.draw(screen)
 
 
 
-def run_frame():
+def run_frame(is_local = False):
     global running
     global drawing
     global last_pos
@@ -76,26 +76,29 @@ def run_frame():
 
     if make_request:
         make_request = False
-        screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
-        screenshot = screenshot.tolist()
-        screenshot = json.dumps(screenshot)
-        
-        retries = 6
-        delay = 5
-        prediction = None
-        for i in range(0, retries):
-            try:
-                request = httpx.post(url, json=screenshot)
-            except:
-                print("Server not available yet...")
-            if request is not None:
-                break
-            time.sleep(delay)
-
-        if request is not None:
-            text = set_text(screen, f"Prediction: {request.json()}", text)
+        if(is_local):
+            predict()
         else:
-            text = set_text(screen, f"Connection issue, please retry", text)
+            screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
+            screenshot = screenshot.tolist()
+            screenshot = json.dumps(screenshot)
+            
+            retries = 6
+            delay = 5
+            prediction = None
+            for i in range(0, retries):
+                try:
+                    request = httpx.post(url, json=screenshot)
+                except:
+                    print("Server not available yet...")
+                if request is not None:
+                    break
+                time.sleep(delay)
+
+            if request is not None:
+                text = set_text(screen, f"Prediction: {request.json()}", text)
+            else:
+                text = set_text(screen, f"Connection issue, please retry", text)
 
     for event in pygame.event.get():
         #MOUSE MOVED
@@ -138,7 +141,7 @@ def run_frame():
 
 def run_game_local():
     while running:
-        run_frame()
+        run_frame(True)
 
 def run_one_frame():
     if running:
