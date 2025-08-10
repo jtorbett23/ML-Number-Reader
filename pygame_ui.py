@@ -54,7 +54,7 @@ def clear_screen():
     clear_button.draw(screen)
     predict_button.draw(screen)
 
-def predict():
+def predict_local():
     from use_model import predict_number
     screenshot = pygame.surfarray.pixels3d(screen)
     prediction = predict_number(screenshot)
@@ -77,7 +77,7 @@ def run_frame(is_local = False):
     if make_request:
         make_request = False
         if(is_local):
-            predict()
+            predict_local()
         else:
             screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
             screenshot = screenshot.tolist()
@@ -134,8 +134,6 @@ def run_frame(is_local = False):
         elif event.type == pygame.QUIT:
             running = False
         
-
-
     pygame.display.flip()
 
 

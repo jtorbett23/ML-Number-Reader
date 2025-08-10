@@ -2,6 +2,8 @@
 git checkout master
 git branch -D gh-pages
 git checkout -b gh-pages
+cp pygame_core.py ./ui/pygame_core.py
+cp pygame_ui.py ./ui/pygame_ui.py
 rm -r ./*.py
 rm -r ./*.h5
 rm -r ./*.md
