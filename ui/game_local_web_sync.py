@@ -36,6 +36,7 @@ def set_text(screen, content, current_text=None):
     text_rect = current_text.get_rect()
     text_rect.top += 10
     text_rect.left += 10
+    screen.fill(COLOURS["BLACK"], text_rect)
     screen.blit(current_text, text_rect)
     return current_text
 
@@ -132,7 +133,7 @@ def run_frame():
         
 
 
-    pygame.display.update()
+    pygame.display.flip()
 
 
 def run_game_local():
