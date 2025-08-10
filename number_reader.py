@@ -1,15 +1,16 @@
 from fastapi import FastAPI, Request
-from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from use_model import predict_number
 import numpy
 import json
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+origins = os.getenv("ORIGINS").split(",")
 
 app = FastAPI(title="main app")
-
-origins = [
-    "https://jtorbett23.github.io"
-]
 
 app.add_middleware(
     CORSMiddleware,

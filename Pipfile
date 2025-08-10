@@ -8,6 +8,7 @@ fastapi = {extras = ["standard"], version = "*"}
 tensorflow-cpu="*"
 numpy = "*"
 scikit-image = "*"
+python-dotenv = "*"
 
 [dev-packages]
 tensorflow-datasets = "*"
@@ -27,5 +28,7 @@ use="python -m use_model"
 game-local="python -m pygame_ui"
 noise="python -m noise"
 gh-pages="bash -c './gh-pages.sh'"
-api-dev="bash -c './build_web_dev.sh'"
-api-prod="bash -c './build_web_prod.sh'"
+api-dev="bash -c './web_dev.sh'"
+api-dev-reader="bash -c './web_dev_reader_only.sh'"
+api-prod="bash -c './web_prod.sh'"
+api-dev-split="bash -c './web_dev_split.sh'"
