@@ -21,6 +21,6 @@ ENV PATH="$PYROOT/bin:$PATH"
 RUN pip install packaging
 RUN pip install certifi
 
-COPY api.py numberreader.h5 use_model.py ./
+COPY number_reader.py numberreader.h5 use_model.py ./
 
-CMD ["fastapi", "run", "api.py", "--port", "8080"]
+CMD ["fastapi", "run", "number_reader.py", "--port", "8080"]
