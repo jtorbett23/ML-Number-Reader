@@ -5,7 +5,7 @@ import numpy
 import json
 import time
 
-url = "http://127.0.0.1:8080/predict"
+url = "!URL/predict"
 transport = httpx.HTTPTransport(retries=1)
 client = httpx.Client(transport=transport)
 #SETUP
