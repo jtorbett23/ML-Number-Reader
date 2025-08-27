@@ -93,6 +93,7 @@ def run_frame(is_local = False):
                     print("Server not available yet...")
                 if request is not None:
                     break
+                # DO SOMETHING ABOUT THE SLEEP HERE 
                 time.sleep(delay)
 
             if request is not None:
