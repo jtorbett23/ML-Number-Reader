@@ -85,7 +85,7 @@ def run_frame(is_local = False):
             
             retries = 6
             delay = 5
-            prediction = None
+            request = None
             for i in range(0, retries):
                 try:
                     request = httpx.post(url, json=screenshot)
