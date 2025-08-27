@@ -22,7 +22,7 @@ screen = pygame.display.set_mode(SIZE_VIEW, vsync=1)
 width = screen.get_width() 
 height = screen.get_height()
 #ELEMENTS
-font = pygame.font.Font('freesansbold.ttf', 16)
+font = pygame.font.Font('GoogleSansCode.ttf', 16)
 
 def set_text(screen, content, current_text=None):
     if current_text is not None:
