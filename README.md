@@ -1,7 +1,10 @@
+# MNIST Number Reader
+
 This is a project that uses Pygame to draw numbers which are read by a tensorflow machine learning model trained on the MNIST number data set.
 
 This is made up of a static site hosted on Github Pages which makes API calls to a fastapi hosted on Cloud Run which handles running the machine learning model.
 
+Github Pages Url - https://jtorbett23.github.io/ML-Number-Reader
 
 # Tech Stack
 
