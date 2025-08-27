@@ -20,7 +20,7 @@ class Button:
 
     def draw(self, screen):
         colour = (170,170,170) 
-        pygame.draw.rect(screen,colour,[self.x,self.y,self.width,self.height]) 
+        pygame.draw.rect(screen,colour,[self.x,self.y,self.width,self.height], border_radius=round(min(self.width,self.height)/4)) 
         text = self.font.render(self.text, True, COLOURS["GREEN"])
         text_rect = text.get_rect()
         x_offset = (self.width - text_rect.width) / 2 

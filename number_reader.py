@@ -8,7 +8,7 @@ import os
 
 load_dotenv()
 
-origins = os.getenv("ORIGINS").split(",")
+origins = os.getenv("ORIGINS", "").split(",")
 
 app = FastAPI(title="main app")
 
