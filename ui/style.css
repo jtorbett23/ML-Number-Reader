@@ -1,15 +1,21 @@
-@keyframes move {
-  100% {
-    transform: translate3d(110vw, 0, 0)
-  }
-}
-
 body {
   font-family: "VT323", monospace;
   height: 100%;
   background-color: black;
   overflow-y: hidden;
   color: rgb(0, 255, 102);
+}
+
+dialog {
+  color: rgb(0, 255, 102);
+}
+
+#matrix {
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: fixed;
 }
 
 .page {
@@ -31,20 +37,4 @@ body {
   border: 2px solid rgb(170,170,170);
   border-radius: 25px;
   padding: 10px;
-}
-
-.number{
-    position: fixed;
-    width: 20vmin;
-    height: 20vmin;
-    border-radius: 50%;
-    backface-visibility: hidden;
-    animation: move linear infinite;
-    color: rgb(242,240,239);
-    z-index:-1;
-    left: -10%;
-    animation-duration: 5s;
-    animation-delay: -3s;
-    transform-origin: 0 0;
-    /* opacity: .4; */
 }
