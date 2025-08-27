@@ -24,12 +24,10 @@ python_version = "3.11"
 
 [scripts]
 create="python -m create_model"
-use="python -m use_model"
 game-local="python -m pygame_ui"
-noise="python -m noise"
 gh-pages="bash -c './gh-pages.sh'"
 api="bash -c './web_dev.sh'"
-api-reader="python -m fastapi dev number_reader.py --port 8080"
 api-prod="python -m fastapi run number_reader.py --port 8080"
 api-split="bash -c './web_dev_split.sh'"
+api-reader="python -m fastapi dev number_reader.py --port 8080"
 api-ui="bash -c './web_dev_ui_only.sh'"
