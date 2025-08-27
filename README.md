@@ -29,7 +29,7 @@ This is made up of a static site hosted on Github Pages which makes API calls to
 
 ## Local Development
 
-- Train model on dataset (with random noise added) - `pipenv run create`
+- Create and train model on MNIST dataset (with random noise added) - `pipenv run create`
 - Run pygame locally with model - `pipenv run local-game`
 - Run an api that hosts both the ui and tensorflow to read numbers for development - `pipenv run api`
 - Run an api that only hosts tensorflow return the guessed number for development - `pipenv run api-reader`
