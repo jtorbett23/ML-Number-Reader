@@ -1,0 +1,51 @@
+@keyframes move {
+  100% {
+    transform: translate3d(110vw, 0, 0)
+  }
+}
+
+body {
+  font-family: "VT323", monospace;
+  height: 100%;
+  background-color: black;
+  overflow-y: hidden;
+  color: rgb(0, 255, 102);
+}
+
+.page {
+  height: 100%;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  flex-direction: column; 
+}
+
+.pygame-container {
+  /* background-color: rgb(170,170,170);  */
+  border-radius: 25px;
+  border: 2px solid rgb(170,170,170);
+  padding: 0px 20px 0px 20px;
+}
+
+.pygame-canvas {
+  border: 2px solid rgb(170,170,170);
+  border-radius: 25px;
+  padding: 10px;
+}
+
+.number{
+    position: fixed;
+    width: 20vmin;
+    height: 20vmin;
+    border-radius: 50%;
+    backface-visibility: hidden;
+    animation: move linear infinite;
+    background:transparent url(test.png);
+    z-index:-1;
+    top: 10%;
+    left: -10%;
+    animation-duration: 5s;
+    animation-delay: -3s;
+    transform-origin: 0 0;
+    /* opacity: .4; */
+}

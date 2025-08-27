@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html style="height: 100%;">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@pyscript/core@0.6.37/dist/core.css">
     <script type="module" src="https://cdn.jsdelivr.net/npm/@pyscript/core@0.6.37/dist/core.js"></script>
+    <link rel="stylesheet" href="style.css">
    <style>
       #loading { outline: none; border: none; background: black; }
       #loading::backdrop { background-color: black; }
@@ -29,7 +33,6 @@
       loading.close()
     }
       loading.showModal()
-      //  loading.close()
   </script>
   <script async>
     try{
@@ -45,36 +48,39 @@
 
   </script>
 </head>
-<body style="height: 100%;">
+<body>
   <dialog id="loading">
-    <h1 style="color: white;">Loading...</h1>
-</dialog>
-<page style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 100%;">
-  <section>
-    <h2>MNIST Number Reader</h2>
-  </section>
-  <section>
-  <script type="py-game">
-  import pyscript
-  from pathlib import Path
+    <h1>Loading...</h1>
+  </dialog>
+  <!-- <img src="test.png" class="number" width="10%"> -->
+  <page class="page" >
+    <section class="pygame-container">
+      <section>
+        <h2>MNIST Number Reader</h2>
+      </section>
+      <section class="pygame-canvas">
+        <script type="py-game">
+        import pyscript
+        from pathlib import Path
 
-  files = ['pygame_core.py']
-  for file in files:
-    print(f"loading {file}")
-    Path(file).write_bytes(await pyscript.fetch(file).bytearray())
-</script>
-    <canvas id="canvas"></canvas>
-    <script id="script" type="py-game" src="./pygame_ui.py" config="./pyscript.toml">
-    </script>
-  </section>
-  <section>
-    <h3>Controls:</h3>
-    <ul>
-     <li>Left Mouse: Draw Line</li> 
-    <li>C: Clear Screen</li>
-    <li>P: Predict Number</li> 
-    </ul>
-  </section>
-</page>
+        files = ['pygame_core.py', 'GoogleSansCode.ttf']
+        for file in files:
+          print(f"loading {file}")
+          Path(file).write_bytes(await pyscript.fetch(file).bytearray())
+        </script>
+        <canvas id="canvas"></canvas>
+        <script id="script" type="py-game" src="./pygame_ui.py" config="./pyscript.toml">
+        </script>
+      </section>
+      <section>
+        <h3>Controls:</h3>
+        <ul>
+        <li>Left Mouse: Draw Line</li> 
+        <li>C: Clear Screen</li>
+        <li>P: Predict Number</li> 
+        </ul>
+      </section>
+    </section>
+  </page>
 </body>
 </html>
