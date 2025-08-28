@@ -8,11 +8,14 @@
     <script type="module" src="https://cdn.jsdelivr.net/npm/@pyscript/core@0.6.37/dist/core.js"></script>
     <link rel="stylesheet" href="style.css">
    <style>
-      #loading { outline: none; border: none; background: black; }
-      #loading::backdrop { background-color: black; }
+      #loading-page { outline: none; border: none; background: black; }
+      #loading-page::backdrop { background-color: black; }
+      #loading-request { outline: none; border: none; background: none; }
+      #loading-request::backdrop { background: none; }
    </style>
     <script type="module">
-      const loading = document.getElementById('loading');
+      const loadingPage = document.getElementById('loading-page');
+      const loadingRequest = document.getElementById('loading-request');
       console.stdlog = console.log.bind(console);
       console.logs = [];
       console.log = function(){
@@ -27,12 +30,20 @@
         if(console.logs[0][0].includes("Started Pygame"))
         {
           setTimeout(onLoadingComplete(), "1000");
-        } 
+        }
+        else if(console.logs[0][0].includes("Making request"))
+        {
+          loadingRequest.showModal()
+        }
+        else if(console.logs[0][0].includes("Request finished"))
+        { 
+          loadingRequest.close()
+        }
     }
     function onLoadingComplete(){
-      loading.close()
+      loadingPage.close()
     }
-      loading.showModal()
+      loadingPage.showModal()
   </script>
   <script async>
     try{
@@ -49,11 +60,14 @@
   </script>
 </head>
 <body>
-  <dialog id="loading">
+  <dialog id="loading-page">
     <section class="page-load-container">
     <h1>Loading...</h1>
     <div class="loader"></div>
     </section>
+  </dialog>
+  <dialog id="loading-request">
+    <div class="loader"></div>
   </dialog>
   <canvas id="matrix"></canvas>
   <page class="page" >

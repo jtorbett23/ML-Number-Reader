@@ -78,14 +78,18 @@ async def main():
         if(make_request):
             if(request_time is None or time.time() - request_time >= retry_delay):
                 success, prediction = await get_prediction(screenshot)
+                if(request_time is None):
+                    print("Making request", flush=True)
                 if success:
                     text = set_text(screen, f"Prediction: {prediction}", font, text)
                     make_request = False
                     request_time = None
+                    print("Request finished", flush=True)
                 elif not success and retry_count == retry_limit:
                     text = set_text(screen, f"Connection issue, please retry", font, text)
                     make_request = False
                     request_time = None
+                    print("Request finished", flush=True)
                 elif not success:
                     retry_count += 1
                     request_time = time.time()
