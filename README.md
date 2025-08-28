@@ -11,7 +11,6 @@ Github Pages Url - https://jtorbett23.github.io/ML-Number-Reader
 - Python (3.11)
     - [Pygame](https://www.pygame.org/news) - For the UI.
     - [Pyscript](https://pyscript.com) To run pygame on a webpage.
-         - This is the method I used - https://github.com/pyscript/pyscript/issues/2351.
     - [Tensorflow](https://www.tensorflow.org) - For creating the machine learning model.
     - [fastapi](https://fastapi.tiangolo.com) - For handling requests to the machine learning model.
 - HTML/CSS/Javascript

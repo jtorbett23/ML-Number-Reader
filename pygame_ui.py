@@ -1,33 +1,25 @@
-import pygame
-from pygame_core import COLOURS, SIZE_VIEW, SCALE, Button
+
+import pygame, asyncio
 import httpx
-import numpy
 import json
+import numpy
 import time
+from pygame_core import COLOURS, SIZE_VIEW, SCALE, Button
 
 url = "!URL/predict"
-transport = httpx.HTTPTransport(retries=1)
-client = httpx.Client(transport=transport)
-#SETUP
-pygame.init()
-#TITLE
-pygame.display.set_caption('MNIST Numbers')
-#LOGIC
-drawing = False
-last_pos = None
-run = True
-make_request = False
-retry_count = 0
-request_delay = 5
-request_time = None
-#SCREEN
-screen = pygame.display.set_mode(SIZE_VIEW, vsync=1)
-width = screen.get_width() 
-height = screen.get_height()
-#ELEMENTS
-font = pygame.font.Font('GoogleSansCode.ttf', 16)
 
-def set_text(screen, content, current_text=None):
+async def get_prediction(screenshot):
+    prediction = None
+    success = False
+    try:
+        r = await httpx.AsyncClient().post(url, json=screenshot)
+        prediction = r.json()
+        success = True
+    except:
+        print("Server not available yet...")
+    return success, prediction
+
+def set_text(screen, content, font, current_text=None):
     if current_text is not None:
         text_rect = current_text.get_rect()
         text_rect.top += 10
@@ -42,128 +34,100 @@ def set_text(screen, content, current_text=None):
     screen.blit(current_text, text_rect)
     return current_text
 
-
-text = set_text(screen, "Prediction: None")
-clear_button = Button("Clear", 0 + 10, height - 30 - 10, 80, 30, font)
-predict_button = Button("Predict", width -80 - 10, height - 30 - 10, 80, 30, font)
-clear_button.draw(screen)
-predict_button.draw(screen)
-running = True
-
-
-def clear_screen():
+def clear_screen(screen, clear_button, predict_button, text, font):
     screen.fill(COLOURS["BLACK"])
-    set_text(screen, "Prediction: None", text)
-    clear_button.draw(screen)
-    predict_button.draw(screen)
-
-def predict_local():
-    from use_model import predict_number
-    screenshot = pygame.surfarray.pixels3d(screen)
-    prediction = predict_number(screenshot)
-    del screenshot
-    set_text(screen, f"Prediction: {prediction}", text)
+    set_text(screen, "Prediction: None", font, text)
     clear_button.draw(screen)
     predict_button.draw(screen)
 
 
+async def main():
+    print("Started Pygame", flush=True)
+    #SETUP
+    pygame.init()
+    #TITLE
+    pygame.display.set_caption('MNIST Numbers')
+    #UI LOGIC
+    drawing = False
+    last_pos = None
+    run = True
+    #REQUEST LOGIC
+    retry_limit = 5
+    retry_delay = 5
+    retry_count = 0
+    make_request = False
+    request_time = None
+    #SCREEN
+    screen = pygame.display.set_mode(SIZE_VIEW, vsync=1)
+    width = screen.get_width() 
+    height = screen.get_height()
+    screenshot = None
+    #ELEMENTS
+    font = pygame.font.Font('GoogleSansCode.ttf', 16)
+    # button
+    text = set_text(screen, "Prediction: None", font)
+    clear_button = Button("Clear", 0 + 10, height - 30 - 10, 80, 30, font)
+    predict_button = Button("Predict", width -80 - 10, height - 30 - 10, 80, 30, font)
+    clear_button.draw(screen)
+    predict_button.draw(screen)
+   
+    pygame.display.update()
 
-def run_frame(is_local = False):
-    global running
-    global drawing
-    global last_pos
-    global mouse_position
-    global text
-    global make_request
-    global retry_count
-    global request_time
+    while run:
 
-
-    if make_request:
-        if(is_local):
-            predict_local()
-            make_request = False
-        else:
-            screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
-            screenshot = screenshot.tolist()
-            screenshot = json.dumps(screenshot)
-
-            if(request_time is None or time.time() - request_time >= 5):
-                request = None
-                # for i in range(0, retries):
-                try:
-                    request = httpx.post(url, json=screenshot)
-                    retry_count = 0
+        if(make_request):
+            if(request_time is None or time.time() - request_time >= retry_delay):
+                success, prediction = await get_prediction(screenshot)
+                if success:
+                    text = set_text(screen, f"Prediction: {prediction}", font, text)
                     make_request = False
-                    screenshot = None
                     request_time = None
-                except:
-                    print("Server not available yet...")
+                elif not success and retry_count == retry_limit:
+                    text = set_text(screen, f"Connection issue, please retry", font, text)
+                    make_request = False
+                    request_time = None
+                elif not success:
                     retry_count += 1
                     request_time = time.time()
-                    # if request is not None:
-                    #     break
-                    # DO SOMETHING ABOUT THE SLEEP HERE 
-                    # time.sleep(delay)
 
-                if request is not None:
-                    text = set_text(screen, f"Prediction: {request.json()}", text)
-                elif retry_count == 5:
-                    text = set_text(screen, f"Connection issue, please retry", text)
-                    make_request = False
-                    screenshot = None
+
+        for event in pygame.event.get():
+            #MOUSE MOVED
+            if event.type == pygame.MOUSEMOTION:
+                if (drawing):
+                    mouse_position = pygame.mouse.get_pos()
+                    if last_pos is not None:
+                        pygame.draw.line(screen, COLOURS["WHITE"], last_pos, mouse_position, SCALE)
+                    last_pos = mouse_position
+            #MOUSE PRESSED & RELEASED
+            elif event.type == pygame.MOUSEBUTTONUP:
+                drawing = False
+                last_pos = None
+                if(clear_button.is_mouse_over(mouse_position)):
+                    clear_screen(screen, clear_button, predict_button, text, font)
+                elif(predict_button.is_mouse_over(mouse_position)):
+                    text = set_text(screen,"Prediction: Calculating...", font, text)
+                    screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
+                    screenshot = screenshot.tolist()
+                    screenshot = json.dumps(screenshot)
+                    make_request = True
                     retry_count = 0
 
-    for event in pygame.event.get():
-        #MOUSE MOVED
-        if event.type == pygame.MOUSEMOTION:
-            if (drawing):
+            #MOUSE DOWN
+            elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_position = pygame.mouse.get_pos()
-                if last_pos is not None:
-                    pygame.draw.line(screen, COLOURS["WHITE"], last_pos, mouse_position, SCALE)
-                last_pos = mouse_position
-        #MOUSE PRESSED & RELEASED
-        elif event.type == pygame.MOUSEBUTTONUP:
-            drawing = False
-            last_pos = None
-            if(clear_button.is_mouse_over(mouse_position)):
-                clear_screen()
-            elif(predict_button.is_mouse_over(mouse_position)):
-                text = set_text(screen,"Prediction: Calculating...", text)
-                make_request = True
-        #MOUSE DOWN
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_position = pygame.mouse.get_pos()
-            if(last_pos is not None):
-                last_pos = mouse_position
-            drawing = True
-        #KEY PRESSED
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_p:
-                text = set_text(screen,"Prediction: Calculating...", text)
-                make_request = True
-
-            elif event.key == pygame.K_c:
-                clear_screen()
-        elif event.type == pygame.QUIT:
-            running = False
+                if(last_pos is not None):
+                    last_pos = mouse_position
+                drawing = True
+            #KEY PRESSED
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_p:
+                    text = set_text(screen,"Prediction: Calculating...", font, text)
+                elif event.key == pygame.K_c:
+                    clear_screen(screen, clear_button, predict_button, text, font)
         
-    pygame.display.flip()
+        await asyncio.sleep(0)  # Let other tasks run
+        pygame.display.update()
 
-
-def run_game_local():
-    while running:
-        run_frame(True)
-
-def run_one_frame():
-    if running:
-        run_frame()
-        window.requestAnimationFrame(ffi.create_proxy(lambda _: run_one_frame()))
-
-try:
-    from pyscript import window
-    from pyscript import ffi
-    run_one_frame()
-    print("Started Pygame", flush=True)
-except ImportError as _:
-    run_game_local()
+# This is the program entry point
+asyncio.create_task(main())
