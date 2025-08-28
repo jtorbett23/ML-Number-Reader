@@ -24,7 +24,7 @@ python_version = "3.11"
 
 [scripts]
 create="python -m create_model"
-game-local="python -m pygame_ui"
+game-local="python -m pygame_ui_local"
 gh-pages="bash -c './gh-pages.sh'"
 api="bash -c './web_dev.sh'"
 api-prod="python -m fastapi run number_reader.py --port 8080"
