@@ -17,6 +17,9 @@ drawing = False
 last_pos = None
 run = True
 make_request = False
+retry_count = 0
+request_delay = 5
+request_time = None
 #SCREEN
 screen = pygame.display.set_mode(SIZE_VIEW, vsync=1)
 width = screen.get_width() 
@@ -72,34 +75,44 @@ def run_frame(is_local = False):
     global mouse_position
     global text
     global make_request
+    global retry_count
+    global request_time
 
 
     if make_request:
-        make_request = False
         if(is_local):
             predict_local()
+            make_request = False
         else:
             screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
             screenshot = screenshot.tolist()
             screenshot = json.dumps(screenshot)
-            
-            retries = 6
-            delay = 5
-            request = None
-            for i in range(0, retries):
+
+            if(request_time is None or time.time() - request_time >= 5):
+                request = None
+                # for i in range(0, retries):
                 try:
                     request = httpx.post(url, json=screenshot)
+                    retry_count = 0
+                    make_request = False
+                    screenshot = None
+                    request_time = None
                 except:
                     print("Server not available yet...")
-                if request is not None:
-                    break
-                # DO SOMETHING ABOUT THE SLEEP HERE 
-                time.sleep(delay)
+                    retry_count += 1
+                    request_time = time.time()
+                    # if request is not None:
+                    #     break
+                    # DO SOMETHING ABOUT THE SLEEP HERE 
+                    # time.sleep(delay)
 
-            if request is not None:
-                text = set_text(screen, f"Prediction: {request.json()}", text)
-            else:
-                text = set_text(screen, f"Connection issue, please retry", text)
+                if request is not None:
+                    text = set_text(screen, f"Prediction: {request.json()}", text)
+                elif retry_count == 5:
+                    text = set_text(screen, f"Connection issue, please retry", text)
+                    make_request = False
+                    screenshot = None
+                    retry_count = 0
 
     for event in pygame.event.get():
         #MOUSE MOVED
