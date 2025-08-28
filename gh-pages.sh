@@ -16,7 +16,7 @@ rm -r ./Pipfile
 rm -r ./Dockerfile
 mv ui/* ./
 rm -r ./ui
-rm -r ./gh-pages.sh
+rm -r ./*.sh
 git add .
 git commit -m "pages"
 git push --set-upstream origin gh-pages -f 
