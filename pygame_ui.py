@@ -1,7 +1,7 @@
 from pyscript import window
 agent = window.navigator.userAgent.lower()
 
-if("iphone" in agent or "android" in agent):
+if (window.navigator.maxTouchPoints > 1):
     from pygame_ui_sync import start as start_sync
     start_sync()
 else:
