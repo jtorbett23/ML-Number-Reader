@@ -8,13 +8,11 @@ from pygame_core import COLOURS, SIZE_VIEW, SCALE, Button
 
 url = "!URL/predict"
 
-transport = httpx.HTTPTransport(retries=0)
-
 async def get_prediction(screenshot):
     prediction = None
     success = False
     try:
-        r = await httpx.AsyncClient(transport=transport).post(url, json=screenshot)
+        r = await httpx.AsyncClient().post(url, json=screenshot)
         prediction = r.json()
         success = True
     except:

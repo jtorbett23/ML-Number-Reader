@@ -8,8 +8,6 @@ from pyscript import window
 from pyscript import ffi
 
 url = "!URL/predict"
-transport = httpx.HTTPTransport(retries=0)
-client = httpx.Client(transport=transport)
 #SETUP
 pygame.init()
 #TITLE
