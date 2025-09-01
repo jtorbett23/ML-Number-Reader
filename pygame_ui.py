@@ -8,7 +8,7 @@ from pygame_core import COLOURS, SIZE_VIEW, SCALE, Button
 
 url = "!URL/predict"
 
-transport = httpx.HTTPTransport(retries=0)
+transport = httpx.HTTPTransport(retries=1)
 
 async def get_prediction(screenshot):
     prediction = None
