@@ -90,7 +90,8 @@ def run_frame(is_local = False):
 
             if(request_time is None or time.time() - request_time >= 5):
                 request = None
-                # for i in range(0, retries):
+                if(request_time is None):
+                    print("Making request", flush=True)
                 try:
                     request = httpx.post(url, json=screenshot)
                     retry_count = 0
@@ -101,18 +102,19 @@ def run_frame(is_local = False):
                     print("Server not available yet...")
                     retry_count += 1
                     request_time = time.time()
-                    # if request is not None:
-                    #     break
-                    # DO SOMETHING ABOUT THE SLEEP HERE 
-                    # time.sleep(delay)
 
                 if request is not None:
                     text = set_text(screen, f"Prediction: {request.json()}", text)
+                    request_time = None
+                    print("Request finished", flush=True)
                 elif retry_count == 5:
                     text = set_text(screen, f"Connection issue, please retry", text)
+                    request_time = None
                     make_request = False
                     screenshot = None
                     retry_count = 0
+                    print("Request finished", flush=True)
+
 
     for event in pygame.event.get():
         #MOUSE MOVED
@@ -156,14 +158,17 @@ def run_game_local():
         run_frame(True)
 
 def run_one_frame():
+    from pyscript import window
+    from pyscript import ffi
     if running:
         run_frame()
         window.requestAnimationFrame(ffi.create_proxy(lambda _: run_one_frame()))
 
-try:
-    from pyscript import window
-    from pyscript import ffi
-    run_one_frame()
-    print("Started Pygame", flush=True)
-except ImportError as _:
-    run_game_local()
+def start():
+    try:
+        from pyscript import window
+        from pyscript import ffi
+        run_one_frame()
+        print("Started Pygame", flush=True)
+    except ImportError as _:
+        run_game_local()
