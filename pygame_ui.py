@@ -9,7 +9,6 @@ from pyscript import window
 
 url = "!URL/predict"
 
-transport = httpx.HTTPTransport(retries=0)
 
 async def get_prediction(screenshot):
     prediction = None
@@ -23,11 +22,10 @@ async def get_prediction(screenshot):
     return success, prediction
 
 def get_prediction_mobile(screenshot):
-    
     prediction = None
     success = False
     try:
-        r =  httpx.Client(transport=transport).post(url, json=screenshot)
+        r =  httpx.post(url, json=screenshot)
         prediction = r.json()
         success = True
     except:
