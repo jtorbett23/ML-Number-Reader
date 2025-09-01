@@ -1,5 +1,4 @@
 from pyscript import window
-agent = window.navigator.userAgent.lower()
 
 if (window.navigator.maxTouchPoints > 1):
     from pygame_ui_sync import start as start_sync
