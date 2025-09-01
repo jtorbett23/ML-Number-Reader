@@ -43,7 +43,7 @@ def set_text(screen, content, current_text=None):
     return current_text
 
 
-text = set_text(screen, "Prediction: None")
+text = set_text(screen, "Prediction: None - Mobile")
 clear_button = Button("Clear", 0 + 10, height - 30 - 10, 80, 30, font)
 predict_button = Button("Predict", width -80 - 10, height - 30 - 10, 80, 30, font)
 clear_button.draw(screen)
@@ -57,7 +57,7 @@ def clear_screen():
     clear_button.draw(screen)
     predict_button.draw(screen)
 
-def run_frame(is_local = False):
+def run_frame():
     global running
     global drawing
     global last_pos

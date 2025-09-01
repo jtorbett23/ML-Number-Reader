@@ -65,7 +65,7 @@ async def main():
     #ELEMENTS
     font = pygame.font.Font('GoogleSansCode.ttf', 16)
     # button
-    text = set_text(screen, "Prediction: None", font)
+    text = set_text(screen, "Prediction: None - Web", font)
     clear_button = Button("Clear", 0 + 10, height - 30 - 10, 80, 30, font)
     predict_button = Button("Predict", width -80 - 10, height - 30 - 10, 80, 30, font)
     clear_button.draw(screen)
