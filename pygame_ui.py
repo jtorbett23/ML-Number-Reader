@@ -5,16 +5,29 @@ import json
 import numpy
 import time
 from pygame_core import COLOURS, SIZE_VIEW, SCALE, Button
+from pyscript import window
 
 url = "!URL/predict"
 
-transport = httpx.HTTPTransport(retries=1)
+transport = httpx.HTTPTransport(retries=0)
 
 async def get_prediction(screenshot):
     prediction = None
     success = False
     try:
-        r = await httpx.AsyncClient(transport=transport).post(url, json=screenshot)
+        r = await httpx.AsyncClient().post(url, json=screenshot)
+        prediction = r.json()
+        success = True
+    except:
+        print("Server not available yet...")
+    return success, prediction
+
+def get_prediction_mobile(screenshot):
+    
+    prediction = None
+    success = False
+    try:
+        r =  httpx.Client(transport=transport).post(url, json=screenshot)
         prediction = r.json()
         success = True
     except:
@@ -59,6 +72,10 @@ async def main():
     retry_count = 0
     make_request = False
     request_time = None
+    is_mobile = False
+    agent = window.navigator.userAgent.lower()
+    if("iphone" in agent or "android" in agent):
+        is_mobile = True
     #SCREEN
     screen = pygame.display.set_mode(SIZE_VIEW, vsync=1)
     width = screen.get_width() 
@@ -79,7 +96,11 @@ async def main():
 
         if(make_request):
             if(request_time is None or time.time() - request_time >= retry_delay):
-                success, prediction = await get_prediction(screenshot)
+                success, prediction = False, None
+                if(is_mobile):
+                    success, prediction = get_prediction_mobile(screenshot)
+                else:
+                    success, prediction = await get_prediction(screenshot)
                 if(request_time is None):
                     print("Making request", flush=True)
                 if success:
