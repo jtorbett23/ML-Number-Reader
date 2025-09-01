@@ -1,6 +1,6 @@
 #!/bin/bash
 source .env || echo "no .env file"
-git checkout master
+# git checkout master
 git branch -D gh-pages
 git checkout -b gh-pages
 cp index.html ./ui/index.html
