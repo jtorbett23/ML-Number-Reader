@@ -80,7 +80,7 @@
         import pyscript
         from pathlib import Path
 
-        files = ['pygame_core.py', 'GoogleSansCode.ttf', 'pygame_ui_async.py', 'pygame_ui_sync.py']
+        files = ['pygame_core.py', 'GoogleSansCode.ttf', 'pygame_ui_sync.py']
         for file in files:
           print(f"loading {file}")
           Path(file).write_bytes(await pyscript.fetch(file).bytearray())
