@@ -4,10 +4,10 @@ import httpx
 import numpy
 import json
 import time
+from pyscript import window
+from pyscript import ffi
 
 url = "!URL/predict"
-transport = httpx.HTTPTransport(retries=1)
-client = httpx.Client(transport=transport)
 #SETUP
 pygame.init()
 #TITLE
@@ -57,18 +57,7 @@ def clear_screen():
     clear_button.draw(screen)
     predict_button.draw(screen)
 
-def predict_local():
-    from use_model import predict_number
-    screenshot = pygame.surfarray.pixels3d(screen)
-    prediction = predict_number(screenshot)
-    del screenshot
-    set_text(screen, f"Prediction: {prediction}", text)
-    clear_button.draw(screen)
-    predict_button.draw(screen)
-
-
-
-def run_frame(is_local = False):
+def run_frame():
     global running
     global drawing
     global last_pos
@@ -78,12 +67,36 @@ def run_frame(is_local = False):
     global retry_count
     global request_time
 
-
     if make_request:
-        predict_local()
-        make_request = False
-        
 
+        screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
+        screenshot = screenshot.tolist()
+        screenshot = json.dumps(screenshot)
+
+        if(request_time is None or time.time() - request_time >= 5):
+            request = None
+            try:
+                request = httpx.post(url, json=screenshot)
+                retry_count = 0
+                make_request = False
+                screenshot = None
+                request_time = None
+            except:
+                print("Server not available yet...")
+                retry_count += 1
+                request_time = time.time()
+
+            if request is not None:
+                text = set_text(screen, f"Prediction: {request.json()}", text)
+                request_time = None
+                print("Request finished", flush=True)
+            elif retry_count == 5:
+                text = set_text(screen, f"Connection issue, please retry", text)
+                request_time = None
+                make_request = False
+                screenshot = None
+                retry_count = 0
+                print("Request finished", flush=True)
 
     for event in pygame.event.get():
         #MOUSE MOVED
@@ -101,6 +114,7 @@ def run_frame(is_local = False):
                 clear_screen()
             elif(predict_button.is_mouse_over(mouse_position)):
                 text = set_text(screen,"Prediction: Calculating...", text)
+                print("Making request", flush=True)
                 make_request = True
         #MOUSE DOWN
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -112,6 +126,7 @@ def run_frame(is_local = False):
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_p:
                 text = set_text(screen,"Prediction: Calculating...", text)
+                print("Making request", flush=True)
                 make_request = True
 
             elif event.key == pygame.K_c:
@@ -126,5 +141,11 @@ def run_game_local():
     while running:
         run_frame(True)
 
+def run_one_frame():
+    if running:
+        run_frame()
+        window.requestAnimationFrame(ffi.create_proxy(lambda _: run_one_frame()))
 
-run_game_local()
+def start():
+    run_one_frame()
+    print("Started Pygame", flush=True)
