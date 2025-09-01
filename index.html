@@ -82,7 +82,6 @@
 
         files = ['pygame_core.py', 'GoogleSansCode.ttf', 'pygame_ui_sync.py', 'pygame_ui_async.py']
         for file in files:
-          print(f"loading {file}")
           Path(file).write_bytes(await pyscript.fetch(file).bytearray())
         </script>
         <canvas id="canvas"></canvas>
