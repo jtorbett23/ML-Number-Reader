@@ -5,8 +5,6 @@ import json
 import numpy
 import time
 from pygame_core import COLOURS, SIZE_VIEW, SCALE, Button
-from pyscript import window
-
 
 url = "!URL/predict"
 
@@ -66,10 +64,7 @@ async def main():
     screenshot = None
     #ELEMENTS
     font = pygame.font.Font('GoogleSansCode.ttf', 16)
-    # button
-    agent = window.navigator.userAgent.lower()
-    # text = set_text(screen, "Prediction: None - Web", font)
-    text = set_text(screen, agent, font)
+    text = set_text(screen, "Prediction: None", font)
     clear_button = Button("Clear", 0 + 10, height - 30 - 10, 80, 30, font)
     predict_button = Button("Predict", width -80 - 10, height - 30 - 10, 80, 30, font)
     clear_button.draw(screen)
