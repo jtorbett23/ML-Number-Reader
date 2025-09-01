@@ -144,7 +144,6 @@ def run_game_local():
         run_frame(True)
 
 def run_one_frame():
-
     if running:
         run_frame()
         window.requestAnimationFrame(ffi.create_proxy(lambda _: run_one_frame()))

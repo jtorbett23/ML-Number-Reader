@@ -1,4 +1,3 @@
-from pyscript import window
 from pygame_ui_sync import start as start_sync
 start_sync()
 agent = window.navigator.userAgent.lower()
