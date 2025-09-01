@@ -6,8 +6,8 @@ import json
 import time
 
 url = "!URL/predict"
-transport = httpx.HTTPTransport(retries=1)
-client = httpx.Client(transport=transport)
+
+client = httpx.Client()
 #SETUP
 pygame.init()
 #TITLE
@@ -90,8 +90,6 @@ def run_frame(is_local = False):
 
             if(request_time is None or time.time() - request_time >= 5):
                 request = None
-                if(request_time is None):
-                    print("Making request", flush=True)
                 try:
                     request = httpx.post(url, json=screenshot)
                     retry_count = 0
@@ -132,6 +130,7 @@ def run_frame(is_local = False):
                 clear_screen()
             elif(predict_button.is_mouse_over(mouse_position)):
                 text = set_text(screen,"Prediction: Calculating...", text)
+                print("Making request", flush=True)
                 make_request = True
         #MOUSE DOWN
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -143,6 +142,7 @@ def run_frame(is_local = False):
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_p:
                 text = set_text(screen,"Prediction: Calculating...", text)
+                print("Making request", flush=True)
                 make_request = True
 
             elif event.key == pygame.K_c:
