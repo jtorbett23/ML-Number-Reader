@@ -4,6 +4,8 @@ import httpx
 import numpy
 import json
 import time
+from pyscript import window
+from pyscript import ffi
 
 url = "!URL/predict"
 transport = httpx.HTTPTransport(retries=0)
@@ -158,17 +160,11 @@ def run_game_local():
         run_frame(True)
 
 def run_one_frame():
-    from pyscript import window
-    from pyscript import ffi
+
     if running:
         run_frame()
         window.requestAnimationFrame(ffi.create_proxy(lambda _: run_one_frame()))
 
 def start():
-    try:
-        from pyscript import window
-        from pyscript import ffi
-        run_one_frame()
-        print("Started Pygame", flush=True)
-    except ImportError as _:
-        run_game_local()
+    run_one_frame()
+    print("Started Pygame", flush=True)
