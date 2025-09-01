@@ -6,7 +6,7 @@ import json
 import time
 
 url = "!URL/predict"
-
+transport = httpx.HTTPTransport(retries=0)
 client = httpx.Client()
 #SETUP
 pygame.init()
