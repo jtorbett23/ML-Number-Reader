@@ -67,7 +67,6 @@ def run_frame():
     global retry_count
     global request_time
 
-
     if make_request:
 
         screenshot : numpy.ndarray = pygame.surfarray.pixels3d(screen)
