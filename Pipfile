@@ -9,6 +9,7 @@ tensorflow-cpu="*"
 numpy = "*"
 scikit-image = "*"
 python-dotenv = "*"
+keras = ">=3.11.3"
 
 [dev-packages]
 tensorflow-datasets = "*"
