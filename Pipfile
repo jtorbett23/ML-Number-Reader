@@ -5,11 +5,12 @@ name = "pypi"
 
 [packages]
 fastapi = {extras = ["standard"], version = "*"}
-tensorflow-cpu="*"
+starlette = ">=0.49.1"
+tensorflow-cpu = "*"
 numpy = "*"
 scikit-image = "*"
 python-dotenv = "*"
-keras = ">=3.11.3"
+keras = ">=3.12.0"
 
 [dev-packages]
 tensorflow-datasets = "*"
