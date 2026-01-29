@@ -41,10 +41,10 @@ Github Pages Url - https://jtorbett23.github.io/ML-Number-Reader
 ### Environment Variables
 
 When running this project enviroment variables are used for certain information:
-- `ORIGINS`: The allowed origins for the number reader AI API.
-- `GHPAGES_URL`: The url of the deployed number reader AI API.
-- `URL`: The url of the number reader AI API on the local machine.
-- `PORT`: The port on the local machine for the number reader AI API.
+- `ORIGINS`: The allowed origins for the number reader API.
+- `GHPAGES_URL`: The url of the deployed number reader API.
+- `URL`: The url of the number reader API on the local machine.
+- `PORT`: The port on the local machine for the number reader API.
 - `PORT_UI`: The port on the local mahcine for the UI when the UI and API are deployed on different ports.
 
 ## Deployment and Production
