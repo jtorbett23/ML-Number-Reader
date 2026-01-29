@@ -38,6 +38,15 @@ Github Pages Url - https://jtorbett23.github.io/ML-Number-Reader
 - Run an api hosting only the ui - `pipenv run api-ui`
 - Run two apis where one hosts tensorflow and the other the ui - `pipenv run api-split`
 
+### Environment Variables
+
+When running this project enviroment variables are used for certain information:
+- `ORIGINS`: The allowed origins for the number reader AI API.
+- `GHPAGES_URL`: The url of the deployed number reader AI API.
+- `URL`: The url of the number reader AI API on the local machine.
+- `PORT`: The port on the local machine for the number reader AI API.
+- `PORT_UI`: The port on the local mahcine for the UI when the UI and API are deployed on different ports.
+
 ## Deployment and Production
 
 - Prepare code for Github Pages and push to branch (which is setup to deploy) - `pipenv run gh-pages`
