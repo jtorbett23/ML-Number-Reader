@@ -7,7 +7,7 @@ import time
 from pyscript import window
 from pyscript import ffi
 
-url = "!URL/predict"
+url = "https://ml-number-reader-969582007399.europe-west1.run.app/predict"
 #SETUP
 pygame.init()
 #TITLE

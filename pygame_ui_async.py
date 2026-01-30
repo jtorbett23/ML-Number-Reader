@@ -6,7 +6,7 @@ import numpy
 import time
 from pygame_core import COLOURS, SIZE_VIEW, SCALE, Button
 
-url = "!URL/predict"
+url = "https://ml-number-reader-969582007399.europe-west1.run.app/predict"
 
 async def get_prediction(screenshot):
     prediction = None
