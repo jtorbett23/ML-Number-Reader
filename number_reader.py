@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from use_model import predict_number
+from model.use_model import predict_number
 import numpy
 import json
 from dotenv import load_dotenv
@@ -9,6 +9,8 @@ import os
 load_dotenv()
 
 origins = os.getenv("ORIGINS", "").split(",")
+
+print(origins)
 
 app = FastAPI(title="main app")
 

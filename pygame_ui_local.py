@@ -58,7 +58,7 @@ def clear_screen():
     predict_button.draw(screen)
 
 def predict_local():
-    from use_model import predict_number
+    from model.use_model import predict_number
     screenshot = pygame.surfarray.pixels3d(screen)
     prediction = predict_number(screenshot)
     del screenshot

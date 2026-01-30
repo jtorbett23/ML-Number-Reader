@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
-from use_model import predict_number
+from model.use_model import predict_number
 import numpy
 import json
 

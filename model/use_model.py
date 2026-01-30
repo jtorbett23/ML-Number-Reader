@@ -9,7 +9,7 @@ def prepare_image_sk(img_path):
     return img
 
 def predict_number(img):
-    model = tf.keras.models.load_model('numberreader.h5')
+    model = tf.keras.models.load_model('./model/numberreader.h5')
     img = np.flipud(img)
     img = np.rot90(img, -1)
     non_white_pixels = np.where(

@@ -1,5 +1,5 @@
 import tensorflow as tf
-from noise import apply_noise
+from model.noise import apply_noise
 
 mnist = tf.keras.datasets.mnist
 
@@ -36,4 +36,4 @@ loss, accuracy = model.evaluate(x_test, y_test)
 
 print(f"From test data: accuracy: {accuracy}, loss: {loss}")
 
-model.save('numberreader.h5')
+model.save('./model/numberreader.h5')
