@@ -1,6 +1,6 @@
 # MNIST Digit Reader
 
-This is a project that uses Pygame to draw digitss which are read by a tensorflow machine learning model trained on the MNIST digits data set.
+This is a project that uses Pygame to draw a digit which is read by a tensorflow machine learning model trained on the MNIST digits data set.
 
 This is made up of a static site hosted on Github Pages which makes API calls to a fastapi hosted on Cloud Run which handles running the machine learning model.
 
