@@ -13,14 +13,14 @@ sed -i '' -e "s|!URL|$GHPAGES_URL|g" ./ui/pygame_ui_sync.py
 sed -i '' -e "s|!URL|$GHPAGES_URL|g" ./ui/pygame_ui_async.py
 sed -i '' -e "s|!URL|$GHPAGES_URL|g" ./ui/index.html
 rm -r ./*.py
-rm -r ./*.h5
 rm -r ./*.md
 rm -r ./*.lock
 rm -r ./Pipfile
 rm -r ./Dockerfile
 mv ui/* ./
 rm -r ./ui
-rm -r ./*.sh
+rm -rf scripts
+rm -rf model
 git add .
 git commit -m "pages"
 git push --set-upstream origin gh-pages -f 
