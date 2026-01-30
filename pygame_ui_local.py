@@ -11,7 +11,7 @@ client = httpx.Client(transport=transport)
 #SETUP
 pygame.init()
 #TITLE
-pygame.display.set_caption('MNIST Numbers')
+pygame.display.set_caption('MNIST Digits')
 #LOGIC
 drawing = False
 last_pos = None
@@ -58,9 +58,9 @@ def clear_screen():
     predict_button.draw(screen)
 
 def predict_local():
-    from model.use_model import predict_number
+    from model.use_model import predict_digit
     screenshot = pygame.surfarray.pixels3d(screen)
-    prediction = predict_number(screenshot)
+    prediction = predict_digit(screenshot)
     del screenshot
     set_text(screen, f"Prediction: {prediction}", text)
     clear_button.draw(screen)

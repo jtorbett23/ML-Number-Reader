@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from model.use_model import predict_number
+from model.use_model import predict_digit
 import numpy
 import json
 from dotenv import load_dotenv
@@ -32,7 +32,7 @@ async def predict(request: Request):
         image_data = await request.json()
         image_data = json.loads(image_data)
         image_data = numpy.array(image_data, dtype=numpy.float16)
-        prediction = predict_number(image_data)
+        prediction = predict_digit(image_data)
         prediction = int(prediction)
     except:
         print("error")

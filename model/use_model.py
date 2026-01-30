@@ -8,8 +8,8 @@ def prepare_image_sk(img_path):
     img = resize(img, (28,28),anti_aliasing=True)
     return img
 
-def predict_number(img):
-    model = tf.keras.models.load_model('./model/numberreader.h5')
+def predict_digit(img):
+    model = tf.keras.models.load_model('./model/digitreader.h5')
     img = np.flipud(img)
     img = np.rot90(img, -1)
     non_white_pixels = np.where(
@@ -35,5 +35,5 @@ def predict_number(img):
     img = np.array([img])
     
     predicition = model.predict(img)
-    number : int = np.argmax(predicition)
-    return number
+    digit : int = np.argmax(predicition)
+    return digit

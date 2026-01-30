@@ -11,7 +11,7 @@ url = "!URL/predict"
 #SETUP
 pygame.init()
 #TITLE
-pygame.display.set_caption('MNIST Numbers')
+pygame.display.set_caption('MNIST Digits')
 #LOGIC
 drawing = False
 last_pos = None

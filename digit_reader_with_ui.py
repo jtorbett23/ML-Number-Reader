@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
-from model.use_model import predict_number
+from model.use_model import predict_digit
 import numpy
 import json
 
@@ -15,7 +15,7 @@ async def predict(request: Request):
         print(type(image_data))
         image_data = numpy.array(image_data, dtype=numpy.float16)
         print(type(image_data))
-        prediction = predict_number(image_data)
+        prediction = predict_digit(image_data)
         print(prediction)
         prediction = int(prediction)
         print(type(prediction))

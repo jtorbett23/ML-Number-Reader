@@ -8,4 +8,4 @@ cp pygame_ui_async.py ./ui/pygame_ui_async.py
 sed -i '' -e "s|!URL|$URL|g" ./ui/pygame_ui_sync.py
 sed -i '' -e "s|!URL|$URL|g" ./ui/pygame_ui_async.py
 sed -i '' -e "s|!URL|$URL|g" ./ui/index.html
-python -m fastapi dev number_reader_with_ui.py --port $PORT
+python -m fastapi dev digit_reader_with_ui.py --port $PORT

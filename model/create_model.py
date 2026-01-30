@@ -36,4 +36,4 @@ loss, accuracy = model.evaluate(x_test, y_test)
 
 print(f"From test data: accuracy: {accuracy}, loss: {loss}")
 
-model.save('./model/numberreader.h5')
+model.save('./model/digitreader.h5')

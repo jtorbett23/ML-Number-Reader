@@ -1,10 +1,10 @@
-# MNIST Number Reader
+# MNIST Digit Reader
 
-This is a project that uses Pygame to draw numbers which are read by a tensorflow machine learning model trained on the MNIST number data set.
+This is a project that uses Pygame to draw digitss which are read by a tensorflow machine learning model trained on the MNIST digits data set.
 
 This is made up of a static site hosted on Github Pages which makes API calls to a fastapi hosted on Cloud Run which handles running the machine learning model.
 
-Github Pages Url - https://jtorbett23.github.io/ML-Number-Reader
+Github Pages Url - https://jtorbett23.github.io/ML-Digit-Reader
 
 # Tech Stack
 
@@ -33,21 +33,21 @@ Github Pages Url - https://jtorbett23.github.io/ML-Number-Reader
 
 - Create and train model on MNIST dataset (with random noise added) - `pipenv run create`
 - Run pygame locally with model - `pipenv run local-game`
-- Run an api that hosts both the ui and tensorflow to read numbers for development - `pipenv run api`
-- Run an api that only hosts tensorflow return the guessed number for development - `pipenv run api-reader`
+- Run an api that hosts both the ui and tensorflow to read digits for development - `pipenv run api`
+- Run an api that only hosts tensorflow return the guessed digit for development - `pipenv run api-reader`
 - Run an api hosting only the ui - `pipenv run api-ui`
 - Run two apis where one hosts tensorflow and the other the ui - `pipenv run api-split`
 
 ### Environment Variables
 
 When running this project enviroment variables are used for certain information:
-- `ORIGINS`: The allowed origins for the number reader API.
-- `GHPAGES_URL`: The url of the deployed number reader API.
-- `URL`: The url of the number reader API on the local machine.
-- `PORT`: The port on the local machine for the number reader API.
+- `ORIGINS`: The allowed origins for the digit reader API.
+- `GHPAGES_URL`: The url of the deployed digit reader API.
+- `URL`: The url of the digit reader API on the local machine.
+- `PORT`: The port on the local machine for the digit reader API.
 - `PORT_UI`: The port on the local mahcine for the UI when the UI and API are deployed on different ports.
 
 ## Deployment and Production
 
 - Prepare code for Github Pages and push to branch (which is setup to deploy) - `pipenv run gh-pages`
-- Run api that will read images and return the guessed number for development - `pipenv run api-prod`
+- Run api that will read images and return the guessed digit for development - `pipenv run api-prod`
